@@ -41,7 +41,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		return (NULL);
 	i = 0;
 	j = 0;
-	str = ((char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1)));
+	str = ((char *)malloc(sizeof(char) * (ft_strlen_pipex(s1) + ft_strlen_pipex(s2) + 1)));
 	if (str == NULL)
 		return (NULL);
 	while (s1[i])
@@ -58,7 +58,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (str);
 }
 
-size_t	ft_strlen(const char *str)
+size_t	ft_strlen_pipex(const char *str)
 {
 	size_t	i;
 

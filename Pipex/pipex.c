@@ -71,6 +71,8 @@ int	initiate_child_process(char **av, int i, int *pipe_fd, char **env)
 	return (pidchild);
 }
 
+//PAS 2 MAIN - SOLUTON PLUS TARD
+
 int	main(int ac, char **av, char **env)
 {
 	int	pipe_fd[2];

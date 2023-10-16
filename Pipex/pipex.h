@@ -23,7 +23,7 @@ void	second_cmd(char **env, char *outfile, char **arg, int *pipe_fd);
 char	*ft_strchr(const char *str, int c);
 int		ft_strncmp(char *str1, char *str2, size_t n);
 char	*ft_strjoin(char *s1, char *s2);
-size_t	ft_strlen(const char *str);
+size_t	ft_strlen_pipex(const char *str);
 void	close_all(int fd, int pipefd[2]);
 
 #endif

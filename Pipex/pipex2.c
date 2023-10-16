@@ -23,7 +23,7 @@ void	fail_execve(char **arg)
 {
 	write(STDERR_FILENO, "pipex: ", 7);
 	write(STDERR_FILENO, "command not found: ", 19);
-	write(STDERR_FILENO, arg[0], ft_strlen(arg[0]));
+	write(STDERR_FILENO, arg[0], ft_strlen_pipex(arg[0]));
 	write(STDERR_FILENO, "\n", 1);
 	exit(127);
 }

@@ -3,17 +3,19 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+         #
+#    By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/13 11:57:52 by ibouhssi          #+#    #+#              #
-#    Updated: 2023/10/13 16:10:40 by ibouhssi         ###   ########.fr        #
+#    Updated: 2023/10/16 11:50:55 by npetitpi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC            = clang -Wall -Wextra -Werror -pthread -g3 #-fsanitize=thread 
+CFLAGS	= -Wall -Werror -Wextra -g3
+CC		= cc $(CFLAGS)
 RM            = rm -rf
-NAME        = ./minishell
+NAME          = ./minishell
 NAME_SHORT    = minishell
+PIPEX 		  = Pipex/pipex.a
 
 #INCS_DIR    = Includes
 #MAIN_INC    = -I$(INCS_DIR)
@@ -37,14 +39,18 @@ _OK            = [\033[32mOK\033[0m]
 
 all            : $(NAME)
 
-$(NAME)        : $(OBJS) 
-			@$(CC) $(OBJS) -o $(NAME)
+$(NAME)        : $(OBJS) $(PIPEX)
+			@$(CC) $(OBJS) $(PIPEX) -o $(NAME)
 			@echo "$(_OK) $(NAME_SHORT) compiled"
+
+$(PIPEX):
+	cd Pipex && $(MAKE)
 
 clean        :
 			@$(RM) $(OBJS)
 
 fclean        : clean
+			cd Pipex && $(MAKE) fclean
 			@$(RM) $(NAME)
 
 re            : fclean all
