@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:54:09 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/10/16 13:53:07 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/10/16 15:58:57 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,22 +112,22 @@ void	signal_handler_prompt(int signum)
 	}
 }
 
-int	main(int ac, char **av, char **envp)
-{
-	t_shell	shell;
-	int		i;
+// int	main(int ac, char **av, char **envp)
+// {
+// 	t_shell	shell;
+// 	int		i;
 
-	signal(SIGINT, signal_handler_prompt);
-	signal(SIGQUIT, signal_handler_prompt);
-	signal(SIGTSTP, SIG_IGN);
-	(void)ac;
-	(void)av;
-	i = 0;
-	shell.envp = get_env(envp);
-	while (1)
-	{
+// 	signal(SIGINT, signal_handler_prompt);
+// 	signal(SIGQUIT, signal_handler_prompt);
+// 	signal(SIGTSTP, SIG_IGN);
+// 	(void)ac;
+// 	(void)av;
+// 	i = 0;
+// 	shell.envp = get_env(envp);
+// 	while (1)
+// 	{
 		
-	}
-	(void)shell;
-	return (0);
-}
+// 	}
+// 	(void)shell;
+// 	return (0);
+// }
