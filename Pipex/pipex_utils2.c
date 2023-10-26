@@ -1,6 +1,6 @@
 #include "pipex.h"
 
-char	*ft_strchr(const char *str, int c)
+char	*ft_strchr_pipex(const char *str, int c)
 {
 	size_t	i;
 
@@ -18,7 +18,7 @@ char	*ft_strchr(const char *str, int c)
 	return (NULL);
 }
 
-int	ft_strncmp(char *str1, char *str2, size_t n)
+int	ft_strncmp_pipex(char *str1, char *str2, size_t n)
 {
 	size_t	i;
 
@@ -31,7 +31,7 @@ int	ft_strncmp(char *str1, char *str2, size_t n)
 	return ((unsigned char)str1[i] - (unsigned char)str2[i]);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin_pipex(char *s1, char *s2)
 {
 	int		i;
 	int		j;

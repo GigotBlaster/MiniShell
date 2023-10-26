@@ -26,7 +26,7 @@ void	ft_free(char **strs, int words_index)
 	free(strs);
 }
 
-char	**ft_split2(const char *s, char c, char **strs, int nb_words)
+char	**ft_split2_pipex(const char *s, char c, char **strs, int nb_words)
 {
 	int	i;
 	int	j;
@@ -47,7 +47,7 @@ char	**ft_split2(const char *s, char c, char **strs, int nb_words)
 			ft_free(strs, words_index);
 			return (NULL);
 		}
-		ft_strlcpy(strs[words_index], &(s[i]), j + 1);
+		ft_strlcpy_pipex(strs[words_index], &(s[i]), j + 1);
 		i += j;
 		words_index++;
 	}
@@ -55,7 +55,7 @@ char	**ft_split2(const char *s, char c, char **strs, int nb_words)
 	return (strs);
 }
 
-char	**ft_split(char *s, char c)
+char	**ft_split_pipex(char *s, char c)
 {
 	char	**strs;
 	int		nb_words;
@@ -66,10 +66,10 @@ char	**ft_split(char *s, char c)
 	strs = (char **)malloc(sizeof(char *) * (nb_words + 1));
 	if (!strs)
 		return (NULL);
-	return (ft_split2(s, c, strs, nb_words));
+	return (ft_split2_pipex(s, c, strs, nb_words));
 }
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+size_t	ft_strlcpy_pipex(char *dst, const char *src, size_t size)
 {
 	size_t	i;
 
