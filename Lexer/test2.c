@@ -6,9 +6,11 @@
 /*   By: lenibart <lenibart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 13:32:23 by lenibart          #+#    #+#             */
-/*   Updated: 2023/10/27 13:33:11 by lenibart         ###   ########.fr       */
+/*   Updated: 2023/10/27 16:30:17 by lenibart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "minishell.h"
 
 char    **lexer(char *prompt)
 {
