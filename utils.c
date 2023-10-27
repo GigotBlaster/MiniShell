@@ -6,7 +6,7 @@
 /*   By: lenibart <lenibart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 12:53:34 by lenibart          #+#    #+#             */
-/*   Updated: 2023/10/27 13:36:40 by lenibart         ###   ########.fr       */
+/*   Updated: 2023/10/27 14:02:57 by lenibart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,5 @@ char	*ft_strdup(const char *s)
 
 int ft_isspace(int  char)
 {
-    return(char == ' ' || char == '\t' || char == '\n' || char == '\v' || char == '\f' || char == '\r')
+    return(char == ' ' || char == '\t' || char == '\n' || char == '\v' || char == '\f' || char == '\r');
 }
