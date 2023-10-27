@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenibart <lenibart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:57:46 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/10/16 16:31:22 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/10/27 13:36:25 by lenibart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,23 @@ typedef struct s_shell
 	char	**envp;
 }			t_shell;
 
+// Structure pour représenter un token
+
+typedef struct Token {
+    char* value;
+    struct Token* next;
+} Token;
+
 
 // ///////MAIN///////
-int	ft_strlen(const char *s);
-char	*ft_strdup(const char *s);
 void	free_lex(char **lex);
 int	count_line(char **envp);
 char	**get_env(char **envp);
 void	signal_handler_prompt(int signum);
 // int	main(int ac, char **av, char **envp);
+
+///////UTILS///////
+int	ft_strlen(const char *s);
+char	*ft_strdup(const char *s);
 
 #endif

@@ -3,44 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenibart <lenibart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:54:09 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/10/16 15:58:57 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/10/27 13:34:51 by lenibart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int g_ret_val = 0; // A renommer + init avec maccro .h
-
-int	ft_strlen(const char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
-char	*ft_strdup(const char *s)
-{
-	char	*str;
-	int		i;
-
-	i = 0;
-	str = malloc(sizeof(char) * (ft_strlen(s) + 1));
-	if (!str)
-		return (NULL);
-	while (s[i])
-	{
-		str[i] = s[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
-}
+// int g_ret_val = 0; A renommer + init avec maccro .h
 
 void	free_lex(char **lex)
 {
@@ -77,7 +49,7 @@ char	**get_env(char **envp)
 	if (res == NULL)
 	{
 		perror("Malloc error"); //plutot perror ?
-		exit(-1);               // DEF dans le .h
+		exit(-1);               DEF dans le .h
 	}
 	while (envp[i] != NULL)
 	{
@@ -86,7 +58,7 @@ char	**get_env(char **envp)
 		{
 			free_lex(res);          //a voir plus tard (free strlen du lexer)
 			perror("Malloc error"); //plutot perror ?
-			exit(-1);               // DEF dans le .h
+			exit(-1);               DEF dans le .h
 		}
 		i++;
 	}
@@ -112,22 +84,31 @@ void	signal_handler_prompt(int signum)
 	}
 }
 
-// int	main(int ac, char **av, char **envp)
-// {
-// 	t_shell	shell;
-// 	int		i;
+int	main(int ac, char **av, char **envp)
+{
+	t_shell	shell;
+	int		i;
 
-// 	signal(SIGINT, signal_handler_prompt);
-// 	signal(SIGQUIT, signal_handler_prompt);
-// 	signal(SIGTSTP, SIG_IGN);
-// 	(void)ac;
-// 	(void)av;
-// 	i = 0;
-// 	shell.envp = get_env(envp);
-// 	while (1)
-// 	{
-		
-// 	}
-// 	(void)shell;
-// 	return (0);
-// }
+	signal(SIGINT, signal_handler_prompt);
+	signal(SIGQUIT, signal_handler_prompt);
+	signal(SIGTSTP, SIG_IGN);
+	(void)ac;
+	(void)av;
+	i = 0;
+	shell.envp = get_env(envp);
+	while (1)
+	{
+		shell.prompt = readline("\1\033[0;32m\2minishell $> \1\033[0;m\2"); // the final newline removed
+		if (shell.prompt == NULL)
+		{}//free le prompt puisque que malloc par readline
+		if ()
+		{
+			add_history(shell.prompt);
+			lexer(&shell);
+			parsing(&shell);
+			exec(&shell);
+		}
+	}
+	(void)shell;
+	return(0);
+}
