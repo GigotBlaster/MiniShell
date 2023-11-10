@@ -6,7 +6,7 @@
 /*   By: lenibart <lenibart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:57:46 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/10/27 16:22:39 by lenibart         ###   ########.fr       */
+/*   Updated: 2023/11/09 18:20:58 by lenibart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,18 @@
 //MACROS
 # define NB_CMD 3
 # define SIZE_PATH 4096
+#define MAX_TOKEN_LENGTH 100
+
+typedef enum {
+    TOKEN_WORD,
+    TOKEN_PIPE,
+    TOKEN_INPUT_REDIRECT,
+    TOKEN_OUTPUT_REDIRECT,
+    TOKEN_APPEND_REDIRECT,
+    TOKEN_DOUBLE_QUOTES,
+    TOKEN_SINGLE_QUOTES,
+    TOKEN_ENV_VARIABLE
+} TokenType;
 
 typedef struct s_shell
 {
@@ -49,7 +61,8 @@ typedef struct s_shell
 // Structure pour représenter un token
 
 typedef struct Token {
-    char* value;
+    char value[MAX_TOKEN_LENGTH];
+    TokenType type;
     struct Token* next;
 } Token;
 
@@ -59,10 +72,6 @@ int	count_line(char **envp);
 char	**get_env(char **envp);
 void	signal_handler_prompt(int signum);
 // int	main(int ac, char **av, char **envp);
-
-///////UTILS///////
-int	ft_strlen(const char *s);
-char	*ft_strdup(const char *s);
 
 ////SOURCES////
 void	prompt(void);
