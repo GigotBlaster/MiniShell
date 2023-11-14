@@ -1,48 +1,55 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/07 13:30:06 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/07 16:04:52 by npetitpi         ###   ########.fr       */
+/*   Created: 2023/11/07 14:02:12 by npetitpi          #+#    #+#             */
+/*   Updated: 2023/11/07 14:02:14 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//PDW : Print Working Directory
-//
 #include "minishell.h"
 
-void	change_stdin_stdout(t_info *cmd)
+static void	print_args(char **args, int option, int i)
 {
-	if (cmd->output != STDOUT)
+	while (args[i] && args[i + 1])
 	{
-		close(STDOUT);
-		dup(cmd->output);
+		ft_putstr(args[i]);
+		ft_putstr(" ");
+		i++;
 	}
-	if (cmd->input != STDIN)
-	{
-		close(STDIN);
-		dup(cmd->input);
-	}
+	if (args[i])
+		ft_putstr(args[i]);
+	if (!option)
+		ft_putstr("\n");
 }
 
-int ft_pdw(t_info *cmd, t_list **envl)
+static int	option_echo(t_info *cmd)
 {
-	char	cwd[SIZE_PATH];
+	int	i;
+
+	i = 1;
+	while ((cmd->args)[i] && (ft_strcmp((cmd->args)[i], "-n") == 0))
+		i++;
+	return (i);
+}
+
+int			ft_echo(t_info *cmd, t_list **envl)
+{
+	int		i;
 	int		pid;
 
 	(void)envl;
-	getcwd(cwd, SIZE_MAX);
+	i = option_echo(cmd);
 	pid = fork();
-	if (pid == -1)	
-		return(error_msg(FORK_FAIL));
+	if (pid == -1)
+		return (error_msg(FORK_FAIL));
 	else if (pid == 0)
 	{
 		change_stdin_stdout(cmd);
-		ft_putstr(cwd);
-		ft_putstr("\n");
+		print_args(cmd->argv + cmd->offset, (i > 1), i);
 		exit(SUCCESS);
 	}
 	return (SUCCESS);

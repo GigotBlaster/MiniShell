@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 14:08:04 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/10/26 15:02:54 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/11/14 16:07:18 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,12 @@
 # include <stdarg.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include "libftstructures.h"
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 4095
 # endif
 
-/*
-** libft
-*/
-
-typedef struct s_list
-{
-	void			*content;
-	struct s_list	*next;
-}					t_list;
+//LIBFT
 
 void		*ft_memset(void *s, int c, size_t n);
 void		*ft_bzero(void *s, size_t n);
@@ -88,33 +81,15 @@ int			ft_isspace(char c);
 int			ft_max(int a, int b);
 int			ft_min(int a, int b);
 
-/*
-** get_next_line
-*/
 
-typedef struct s_buffer
-{
-	int		size;
-	char	content[BUFFER_SIZE + 1];
-}			t_buffer;
+// GET_NEXT_LINE
 
 char		*join_and_realloc(char *s, char *buf, size_t size);
 int			find_char_index(char *str, char c);
 int			get_next_line(int fd, char **line);
 
-/*
-** ft_printf
-*/
 
-typedef struct s_print
-{
-	int		align;
-	int		zero;
-	int		field;
-	int		precision;
-	int		type;
-	int		fd;
-}			t_print;
+// FT_PRINTF
 
 typedef int	(*t_func)(t_print, va_list);
 

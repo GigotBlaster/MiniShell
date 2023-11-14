@@ -4,6 +4,9 @@ RM			= rm -rf
 NAME		= libft.a
 LIB			= ar rcs
 
+# INCS		= $(shell find $(INCS_DIR) -type f -name "*.h")
+# SRCS		= $(shell find $ -type f -name "*.c")
+
 INCS_DIR	= includes/
 INCS		= $(addprefix $(INCS_DIR), libftfull.h libftstruct.h)
 

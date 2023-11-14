@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenibart <lenibart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:57:46 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/11/09 18:20:58 by lenibart         ###   ########.fr       */
+/*   Updated: 2023/11/14 16:19:41 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-//INCLUDES
+						//INCLUDES BIBLI GEN
 # include <unistd.h>
 # include <stdio.h>
 # include <stddef.h>
@@ -35,46 +35,89 @@
 # include <term.h>
 # include <termios.h>
 
+						//INCLUDE BIBLI PERSO
 #include "libftfull.h"
+# include "structures.h"
 
-//MACROS
-# define NB_CMD 3
+						//MACROS
 # define SIZE_PATH 4096
-#define MAX_TOKEN_LENGTH 100
+# define NB_CMD 3
 
-typedef enum {
-    TOKEN_WORD,
-    TOKEN_PIPE,
-    TOKEN_INPUT_REDIRECT,
-    TOKEN_OUTPUT_REDIRECT,
-    TOKEN_APPEND_REDIRECT,
-    TOKEN_DOUBLE_QUOTES,
-    TOKEN_SINGLE_QUOTES,
-    TOKEN_ENV_VARIABLE
-} TokenType;
+						//BUILTINS//
 
-typedef struct s_shell
-{
-	char	**envp;
-}			t_shell;
+/*cd*/
+int			number_of_args(char **args);
+char		*search_in_env(t_list *envl, char *var);
+static int	cd_home(t_list *envl);
+static int	cd_old(t_list *envl);
+int			ft_cd(t_info *cmd, t_list **envl);
 
-// Structure pour représenter un token
+/*echo*/
+static void	print_args(char **args, int option, int i);
+static int	option_echo(t_info *cmd);
+int			ft_echo(t_info *cmd, t_list **envl);
 
-typedef struct Token {
-    char value[MAX_TOKEN_LENGTH];
-    TokenType type;
-    struct Token* next;
-} Token;
+/*pwd*/
+void	change_stdin_stdout(t_info *cmd);
+int ft_pdw(t_info *cmd, t_list **envl);
 
-// ///////MAIN///////
+/*env*/
+int			ft_env(t_info *cmd, t_list **envl);
+void		print_envl(t_list *envl, int declare);
+static void	print_unquoted(t_env entry);
+static void	print_quoted(t_env entry);
+int		authorized_char(char *s);
+int		export_all(char **vars, t_list **envl, int exported);
+int		print_sorted(t_list *envl, t_info *cmd);
+int		add_env(char *var, char *value, t_list **envl, int exported);
+static int	export_one(char *var, t_list **envl, int exported);
+void	ft_lstsort(t_list **begin_list, int (*cmp)());
+
+/*unset*/					
+int		variable_match(t_list *envl, char *var, int cut);
+void	invalid_identifier(char *str, char *func, int exported);
+
+
+						//UTILS//
+
+/*errors*/
+void	print_error(char *exe, char *file, int err, char *error);
+int		error_msg(int error);
+
+/*free*/
+void		free_all(char *line, t_split *split);
+void		free_tree(t_tree *tree);
+void	free_entry(void *ventry);
+static void	free_cmd(t_info *cmd);
+void	close_unused_fd(t_info *cmd);
+void	free_tab(char **args);
+
+/*use*/
+int		list_size(t_list *lst);
+
+						//SOURCES
+void	prompt(void);
+void	header(void);
+
+						//MAIN
 void	free_lex(char **lex);
 int	count_line(char **envp);
 char	**get_env(char **envp);
 void	signal_handler_prompt(int signum);
 // int	main(int ac, char **av, char **envp);
 
-////SOURCES////
-void	prompt(void);
-void	header(void);
+typedef int	(*t_exec)(t_info *cmd, t_list **envl);
+
+// enum	{CMD, PIPE, LEFT, RIGHT, RRIGHT, SEMIC};
+// enum	{BUILTIN, EXECUTABLE, DECLARATION, EXECBIN};
+// enum	{ECHO, CD, PWD, EXPORT, UNSET, ENV, EXIT};
+// enum	{RESET, SPACE, QUOTE, DB_QUOTE, REDIR, OPERATOR};
+enum	{SUCCESS = 0, PIPE_FAIL = 3, FORK_FAIL = 4, ALLOCATION_FAIL = 5,
+	SYNTAX_QUOTES = 6, SYNTAX_REDIR = 7, AMBIGUOUS_REDIR = 8,
+	TOOMANY = 24, ERROR = 1, MISUSE = 2, CANTEXEC = 126,
+	NOTFOUND = 127, CSIGINT = 130};
+
+
+
 
 #endif

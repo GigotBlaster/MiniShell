@@ -6,7 +6,7 @@
 #    By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/13 11:57:52 by ibouhssi          #+#    #+#              #
-#    Updated: 2023/10/26 15:08:09 by npetitpi         ###   ########.fr        #
+#    Updated: 2023/11/07 13:54:51 by npetitpi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,6 @@ CC		= cc
 RM            = rm -rf
 NAME          = ./minishell
 NAME_SHORT    = minishell
-PIPEX 		  = Pipex/pipex.a
 
 INCS_DIR    = Includes
 MAIN_INC    = -I$(INCS_DIR)
@@ -39,21 +38,20 @@ _OK            = [\033[32mOK\033[0m]
 
 all            : $(NAME)
 
-$(NAME)        : $(OBJS) $(PIPEX)
-			@$(CC) $(CFLAGS) $(OBJS) $(PIPEX) -o $(NAME)
+$(NAME)        : $(OBJS) 
+			@$(CC) $(CFLAGS) $(OBJS)  -o $(NAME)
 			@echo "$(_OK) $(NAME_SHORT) compiled"
 
-$(PIPEX):
-	cd Pipex && $(MAKE)
 
-clean        :
-			@$(RM) $(OBJS)
+clean:
+	@$(RM) $(OBJS)
 
-fclean        : clean
-			cd Pipex && $(MAKE) fclean
-			@$(RM) $(NAME)
+fclean: clean
+	@$(RM) $(OBJS) $(NAME) 2>/dev/null
 
-re            : fclean all
+re: fclean all
+
+.PHONY = all clean fclean re
 
 norme        :
 			@norminette $(SRCS) $(INCS)
