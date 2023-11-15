@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:57:46 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/11/14 16:19:41 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/11/15 10:23:02 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@
 						//BUILTINS//
 
 /*cd*/
-int			number_of_args(char **args);
+int			nb_args(char **args);
 char		*search_in_env(t_list *envl, char *var);
 static int	cd_home(t_list *envl);
 static int	cd_old(t_list *envl);
@@ -54,7 +54,7 @@ int			ft_cd(t_info *cmd, t_list **envl);
 
 /*echo*/
 static void	print_args(char **args, int option, int i);
-static int	option_echo(t_info *cmd);
+static int	echo_option(t_info *cmd);
 int			ft_echo(t_info *cmd, t_list **envl);
 
 /*pwd*/
@@ -64,8 +64,8 @@ int ft_pdw(t_info *cmd, t_list **envl);
 /*env*/
 int			ft_env(t_info *cmd, t_list **envl);
 void		print_envl(t_list *envl, int declare);
-static void	print_unquoted(t_env entry);
-static void	print_quoted(t_env entry);
+static void	print_unquote(t_env entry);
+static void	print_quote(t_env entry);
 int		authorized_char(char *s);
 int		export_all(char **vars, t_list **envl, int exported);
 int		print_sorted(t_list *envl, t_info *cmd);

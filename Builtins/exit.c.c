@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 14:36:33 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/09 14:36:34 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/11/15 10:21:14 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int			ft_exit(t_info *cmd, t_list **envl)
 {
 	int	exit_value;
 
-	if (number_of_args(cmd->argv) < 2)
+	if (nb_args(cmd->argv) < 2)
 	{
 		exit_value = ft_atoi(search_in_env(*envl, "?begin"));
 		free_exit(cmd, envl);
@@ -50,7 +50,7 @@ int			ft_exit(t_info *cmd, t_list **envl)
 		print_error("minishell: exit", NULL, 0, "numeric argument required");
 		exit(MISUSE);
 	}
-	else if (number_of_args(cmd->argv) > 2)
+	else if (nb_args(cmd->argv) > 2)
 	{
 		ft_putstr("exit\n");
 		print_error("minishell: exit", NULL, 0, "too many arguments");

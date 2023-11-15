@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:02:12 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/07 14:02:14 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/11/15 10:22:15 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	print_args(char **args, int option, int i)
 		ft_putstr("\n");
 }
 
-static int	option_echo(t_info *cmd)
+static int	echo_option(t_info *cmd)
 {
 	int	i;
 
@@ -42,7 +42,7 @@ int			ft_echo(t_info *cmd, t_list **envl)
 	int		pid;
 
 	(void)envl;
-	i = option_echo(cmd);
+	i = echo_option(cmd);
 	pid = fork();
 	if (pid == -1)
 		return (error_msg(FORK_FAIL));

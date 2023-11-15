@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:36:20 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/14 14:37:21 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/11/15 10:20:58 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 //
 #include "minishell.h"
 
-int			number_of_args(char **args)
+int			nb_args(char **args)
 {
 	int	i;
 
@@ -81,7 +81,7 @@ int			ft_cd(t_info *cmd, t_list **envl)
 	int		err;
 	char	*path;
 
-	if (number_of_args(cmd->argv + cmd->offset) > 2)
+	if (nb_args(cmd->argv + cmd->offset) > 2)
 	{
 		print_error("minishell: cd", NULL, 0, "too many arguments");
 		return (MISUSE);

@@ -6,13 +6,13 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 14:36:10 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/14 14:44:41 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/11/15 10:22:56 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	print_quoted(t_env entry)
+static void	print_(t_env entry)
 {
 	ft_putstr("declare -x ");
 	ft_putstr(entry.var);
@@ -25,7 +25,7 @@ static void	print_quoted(t_env entry)
 	ft_putstr("\n");
 }
 
-static void	print_unquoted(t_env entry)
+static void	print_unquote(t_env entry)
 {
 	ft_putstr(entry.var);
 	ft_putstr("=");
@@ -44,9 +44,9 @@ void		print_envl(t_list *envl, int declare)
 		{
 			if (declare && entry->exported >= 1
 				&& ft_strcmp(entry->var, "_") != 0)
-				print_quoted(*entry);
+				print_quote(*entry);
 			else if (!declare && entry->exported >= 2)
-				print_unquoted(*entry);
+				print_unquote(*entry);
 		}
 		envl = envl->next;
 	}
@@ -60,7 +60,7 @@ int			ft_env(t_info *cmd, t_list **envl)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (number_of_args(cmd->argv + cmd->offset) > 1)
+		if (nb_args(cmd->argv + cmd->offset) > 1)
 		{
 			print_error("env", NULL, 0,\
 			"should be used without option and argument");
