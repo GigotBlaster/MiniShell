@@ -6,13 +6,13 @@
 /*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 14:36:10 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/15 12:09:06 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/11/15 14:56:40 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	print_quote(t_env entry)
+static void	print_quote(t_env entry) // Print ""
 {
 	ft_putstr("declare -x ");
 	ft_putstr(entry.var);
@@ -25,7 +25,7 @@ static void	print_quote(t_env entry)
 	ft_putstr("\n");
 }
 
-static void	print_unquote(t_env entry)
+static void	print_unquote(t_env entry) // Print autre char
 {
 	ft_putstr(entry.var);
 	ft_putstr("=");
@@ -58,18 +58,24 @@ int	ft_env(t_info *cmd, t_list **envl)
 
 	add_env("_", ft_strdup("env"), envl, 1);
 	pid = fork();
-	if (pid == 0)
+	if (pid == 0) // Si dans child process
 	{
+		// nb arg > 1 ?
 		if (nb_args(cmd->argv + cmd->offset) > 1)
 		{
+			// Affiche une erreur et termine le processus fils avec le code d'erreur MISUSE
 			print_error("env", NULL, 0,
-				"should be used without option and argument");
+					"should be used without option and argument");
 			exit(MISUSE);
 		}
+		// Redirige les entrées/sorties standard selon les spécifications de 'cmd'
 		change_stdin_stdout(cmd);
+		// Affiche les variables d'environnement sans guillemets autour des valeurs
 		print_envl(*envl, 0);
+		// Termine le processus fils avec le code de succès SUCCESS
 		exit(SUCCESS);
 	}
+	// Si nous sommes dans le processus parent, retourne SUCCESS
 	return (SUCCESS);
 }
 
@@ -145,8 +151,8 @@ int	export_all(char **vars, t_list **envl, int exported)
 
 static int	export_one(char *var, t_list **envl, int exported)
 {
-	char *value;
-	char *tmp;
+	char	*value;
+	char	*tmp;
 
 	tmp = ft_strchr(var, '=');
 	if (tmp)

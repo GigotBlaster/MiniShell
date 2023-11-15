@@ -6,7 +6,7 @@
 /*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:57:46 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/11/15 14:09:19 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/11/15 14:59:17 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@
 int			nb_args(char **args);
 char		*search_in_env(t_list *envl, char *var);
 static int	cd_home(t_list *envl);
-static int	cd_old(t_list *envl);
+static int	cd_before(t_list *envl);
 int			ft_cd(t_info *cmd, t_list **envl);
 
 /*echo*/

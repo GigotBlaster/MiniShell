@@ -6,7 +6,7 @@
 /*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:36:20 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/15 12:05:30 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/11/15 14:55:39 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 //
 #include "minishell.h"
 
-int	nb_args(char **args)
+int	nb_args(char **args) // nb d'elem dans le tab de tab
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (args[i])
@@ -25,6 +25,7 @@ int	nb_args(char **args)
 }
 
 char	*search_in_env(t_list *envl, char *var)
+	// Cherche variable d'env dans lchaine, renvoi sa valeur ou NULL
 {
 	while (envl)
 	{
@@ -36,8 +37,9 @@ char	*search_in_env(t_list *envl, char *var)
 }
 
 static int	cd_home(t_list *envl)
+	//change le rép de travail vers le rép défini par la var d'env "HOME".
 {
-	char	*path_home;
+	char *path_home;
 
 	path_home = search_in_env(envl, "HOME");
 	if (!path_home)
@@ -54,50 +56,58 @@ static int	cd_home(t_list *envl)
 	return (SUCCESS);
 }
 
-static int	cd_old(t_list *envl)
+static int	cd_before(t_list *envl)
+	//change le rép de travail vers le rép précédent
 {
-	char	*path_old;
+	char *old_path;
 
-	path_old = search_in_env(envl, "OLDPWD");
-	if (!path_old)
+	old_path = search_in_env(envl, "OLDPWD");
+	if (!old_path)
 	{
 		print_error("minishell: cd", NULL, 0, "OLDPWD not set");
 		return (ERROR);
 	}
 	errno = 0;
-	ft_putstr_fd(path_old, STDERR);
+	ft_putstr_fd(old_path, STDERR);
 	ft_putstr_fd("\n", STDERR);
-	if (chdir(path_old))
+	if (chdir(old_path))
 	{
-		print_error("cd", path_old, errno, NULL);
+		print_error("cd", old_path, errno, NULL);
 		return (ERROR);
 	}
 	return (SUCCESS);
 }
 
-int	ft_cd(t_info *cmd, t_list **envl)
+int	ft_cd(t_info *cmd, t_list **envl) // Implementation de cd
 {
-	int		err;
-	char	*path;
+	int err;
+	char *path;
 
+	// Vérifie nb args
 	if (nb_args(cmd->argv + cmd->offset) > 2)
 	{
 		print_error("minishell: cd", NULL, 0, "too many arguments");
 		return (MISUSE);
 	}
+	// Check si y'a un chemin en argument
 	if (cmd->args[cmd->offset + 1])
 	{
 		path = cmd->argv[cmd->offset + 1];
+		// Si le chemin est "-", retourne au répertoire précédent
 		errno = 0;
 		if (ft_strcmp("-", path) == 0)
 			return (cd_old(*envl));
+		// Change le répertoire de travail vers le chemin spécifié
 		err = chdir(path);
 		if (err)
 		{
+			// Si échec du changement de répertoire, erreur
 			print_error("cd", cmd->argv[cmd->offset + 1], errno, NULL);
 			return (ERROR);
 		}
+		//Si le changement de rép réussit
 		return (SUCCESS);
 	}
+	// Si aucun chemin n'est spécifié, retourne au rép HOME
 	return (cd_home(*envl));
 }
