@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:02:12 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/15 10:22:15 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/11/15 12:05:42 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ static int	echo_option(t_info *cmd)
 	return (i);
 }
 
-int			ft_echo(t_info *cmd, t_list **envl)
+int	ft_echo(t_info *cmd, t_list **envl)
 {
-	int		i;
-	int		pid;
+	int i;
+	int pid;
 
 	(void)envl;
 	i = echo_option(cmd);

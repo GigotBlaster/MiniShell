@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 14:36:33 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/15 10:21:14 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/11/15 12:06:17 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	free_exit(t_info *cmd, t_list **envl)
 	ft_lstclear(envl, &free_entry);
 }
 
-int			ft_exit(t_info *cmd, t_list **envl)
+int	ft_exit(t_info *cmd, t_list **envl)
 {
 	int	exit_value;
 

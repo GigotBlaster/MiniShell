@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:36:20 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/15 10:20:58 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/11/15 12:05:30 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 //
 #include "minishell.h"
 
-int			nb_args(char **args)
+int	nb_args(char **args)
 {
 	int	i;
 
@@ -24,7 +24,7 @@ int			nb_args(char **args)
 	return (i);
 }
 
-char		*search_in_env(t_list *envl, char *var)
+char	*search_in_env(t_list *envl, char *var)
 {
 	while (envl)
 	{
@@ -34,7 +34,6 @@ char		*search_in_env(t_list *envl, char *var)
 	}
 	return (NULL);
 }
-
 
 static int	cd_home(t_list *envl)
 {
@@ -76,7 +75,7 @@ static int	cd_old(t_list *envl)
 	return (SUCCESS);
 }
 
-int			ft_cd(t_info *cmd, t_list **envl)
+int	ft_cd(t_info *cmd, t_list **envl)
 {
 	int		err;
 	char	*path;

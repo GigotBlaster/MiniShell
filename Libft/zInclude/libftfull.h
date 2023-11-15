@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   libftfull.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 13:58:53 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/10/26 13:58:55 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/11/15 13:17:09 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFTFULL_H
 # define LIBFTFULL_H
-# include <string.h>
+# include "libftstruct.h"
 # include <stdarg.h>
 # include <stdlib.h>
+# include <string.h>
 # include <unistd.h>
-# include "libftstruct.h"
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 4095
 # endif
@@ -41,6 +41,7 @@ char		*ft_strchr(const char *s, int c);
 char		*ft_strrchr(const char *s, int c);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			ft_strcmp(const char *s1, const char *s2);
+size_t		ft_strncpy(char *dst, const char *src, size_t n);
 size_t		ft_strlcpy(char *dst, const char *src, size_t size);
 char		*ft_strnstr(const char *big, const char *little, size_t len);
 size_t		ft_strlcat(char *dst, const char *src, size_t size);

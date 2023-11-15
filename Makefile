@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+         #
+#    By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/13 11:57:52 by ibouhssi          #+#    #+#              #
-#    Updated: 2023/11/07 13:54:51 by npetitpi         ###   ########.fr        #
+#    Updated: 2023/11/15 13:59:24 by ibouhssi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ _OK            = [\033[32mOK\033[0m]
 all            : $(NAME)
 
 $(NAME)        : $(OBJS) 
-			@$(CC) $(CFLAGS) $(OBJS)  -o $(NAME)
+			@$(CC) $(CFLAGS) -lreadline $(OBJS)  -o $(NAME)
 			@echo "$(_OK) $(NAME_SHORT) compiled"
 
 

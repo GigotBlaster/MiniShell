@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 14:36:10 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/15 10:22:56 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/11/15 12:09:06 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	print_(t_env entry)
+static void	print_quote(t_env entry)
 {
 	ft_putstr("declare -x ");
 	ft_putstr(entry.var);
@@ -33,7 +33,7 @@ static void	print_unquote(t_env entry)
 	ft_putstr("\n");
 }
 
-void		print_envl(t_list *envl, int declare)
+void	print_envl(t_list *envl, int declare)
 {
 	t_env	*entry;
 
@@ -42,8 +42,8 @@ void		print_envl(t_list *envl, int declare)
 		entry = (t_env *)envl->content;
 		if (authorized_char(entry->var))
 		{
-			if (declare && entry->exported >= 1
-				&& ft_strcmp(entry->var, "_") != 0)
+			if (declare && entry->exported >= 1 && ft_strcmp(entry->var,
+					"_") != 0)
 				print_quote(*entry);
 			else if (!declare && entry->exported >= 2)
 				print_unquote(*entry);
@@ -52,9 +52,9 @@ void		print_envl(t_list *envl, int declare)
 	}
 }
 
-int			ft_env(t_info *cmd, t_list **envl)
+int	ft_env(t_info *cmd, t_list **envl)
 {
-	int		pid;
+	int	pid;
 
 	add_env("_", ft_strdup("env"), envl, 1);
 	pid = fork();
@@ -62,8 +62,8 @@ int			ft_env(t_info *cmd, t_list **envl)
 	{
 		if (nb_args(cmd->argv + cmd->offset) > 1)
 		{
-			print_error("env", NULL, 0,\
-			"should be used without option and argument");
+			print_error("env", NULL, 0,
+				"should be used without option and argument");
 			exit(MISUSE);
 		}
 		change_stdin_stdout(cmd);
@@ -72,13 +72,6 @@ int			ft_env(t_info *cmd, t_list **envl)
 	}
 	return (SUCCESS);
 }
-
-
-
-
-
-
-
 
 //ENV
 
@@ -109,8 +102,7 @@ static int	add_new_var(char *var, char *value, t_list **envl, int exported)
 	return (SUCCESS);
 }
 
-
-int			add_env(char *var, char *value, t_list **envl, int exported)
+int	add_env(char *var, char *value, t_list **envl, int exported)
 {
 	t_list	*env;
 
@@ -134,7 +126,7 @@ int			add_env(char *var, char *value, t_list **envl, int exported)
 	return (add_new_var(ft_strdup(var), value, envl, exported));
 }
 
-int			export_all(char **vars, t_list **envl, int exported)
+int	export_all(char **vars, t_list **envl, int exported)
 {
 	int	i;
 	int	err;
@@ -153,8 +145,8 @@ int			export_all(char **vars, t_list **envl, int exported)
 
 static int	export_one(char *var, t_list **envl, int exported)
 {
-	char	*value;
-	char	*tmp;
+	char *value;
+	char *tmp;
 
 	tmp = ft_strchr(var, '=');
 	if (tmp)
