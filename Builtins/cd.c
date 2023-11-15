@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:36:20 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/15 14:55:39 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/11/15 16:20:12 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	ft_cd(t_info *cmd, t_list **envl) // Implementation de cd
 		// Si le chemin est "-", retourne au répertoire précédent
 		errno = 0;
 		if (ft_strcmp("-", path) == 0)
-			return (cd_old(*envl));
+			return (cd_before(*envl));
 		// Change le répertoire de travail vers le chemin spécifié
 		err = chdir(path);
 		if (err)
