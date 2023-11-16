@@ -6,7 +6,7 @@
 /*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:57:46 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/11/15 14:59:17 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/11/16 12:58:50 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
-#include <sys/file.h>
+# include <sys/file.h>
 # include <sys/ioctl.h>
 # include <sys/resource.h>
 # include <sys/stat.h>
