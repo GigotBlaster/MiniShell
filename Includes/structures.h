@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:12:56 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/15 13:34:59 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/11/22 17:44:26 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,29 @@
 # define STDERR 2
 # define MAX_TOKEN_LENGTH 100
 
+typedef struct s_redir
+{
+	char			*name;
+	int				fd;
+	struct s_redir	*next;
+}			t_redir;
+
+typedef struct s_comm
+{
+	char			*file;
+	char			**argv;
+	t_redir			*redir;
+
+}			t_comm;
+
 typedef struct s_shell
 {
 	char			*prompt;
+	char			*buf;
 	char			**envp;
 }					t_shell;
+
+
 
 typedef struct s_split
 {
@@ -67,6 +85,8 @@ typedef struct s_env
 	char			*value;
 	int				exported;
 }					t_env;
+
+typedef int	(*t_exec)(t_info *cmd, t_list **envl);
 
 typedef enum
 {

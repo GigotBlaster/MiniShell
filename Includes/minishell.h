@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:57:46 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/11/16 12:58:50 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/11/23 14:24:48 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int			ft_cd(t_info *cmd, t_list **envl);
 /*echo*/
 static void	print_args(char **args, int option, int i);
 static int	echo_option(t_info *cmd);
-int			ft_echo(t_info *cmd, t_list **envl);
+int			ft_echo(t_info *cmd, t_comm **envl);
 
 /*pwd*/
 void		change_stdin_stdout(t_info *cmd);
@@ -104,6 +104,7 @@ Token		*lexer(const char *input);
 void		ft_print_line(const char *input);
 
 //MAIN
+void	quit_all(t_shell *sh);
 void		free_lex(char **lex);
 int			count_line(char **envp);
 char		**get_env(char **envp);

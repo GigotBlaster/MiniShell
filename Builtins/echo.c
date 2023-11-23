@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:02:12 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/15 14:57:28 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/11/22 17:36:53 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	echo_option(t_info *cmd)
 	return (i);
 }
 
-int	ft_echo(t_info *cmd, t_list **envl)
+int	ft_echo(t_info *cmd, t_comm **envl)
 {
 	int i;
 	int pid;

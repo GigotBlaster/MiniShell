@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:54:09 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/11/15 14:08:49 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/11/23 14:26:13 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int g_ret_val = 0; //A renommer + init avec maccro .h
+int return_value = 0; //A renommer + init avec maccro .h
 
 void	free_lex(char **lex)
 {
@@ -68,49 +68,16 @@ char	**get_env(char **envp)
 	return (res);
 }
 
-// void	signal_handler_prompt(int signum)
-// {
-// 	if (signum == SIGINT)
-// 	{
-// 		printf("\n");
-// 		rl_on_new_line();
-// 		rl_replace_line("", 0);
-// 		rl_redisplay();
-// 		g_ret_val = 130;
-// 	}
-// 	if (signum == SIGQUIT)
-// 	{
-// 		printf("\33[2K\r");
-// 		rl_on_new_line();
-// 		rl_redisplay();
-// 	}
-// }
+void	quit_all(t_shell *sh)
+{
+	rl_clear_history();
+	ft_putendl_fd("exit", 2);
+	exit(return_value);
+}
 
 int	main(int ac, char **av, char **envp)
 {
-	t_shell	shell;
-	int		i;
-
-	// signal(SIGINT, signal_handler_prompt);
-	// signal(SIGQUIT, signal_handler_prompt);
-	// signal(SIGTSTP, SIG_IGN);
 	(void)ac;
 	(void)av;
-	shell.envp = get_env(envp);
-	while (1)
-	{
-		shell.prompt = readline("\1\033[0;32m\2minishell $> \1\033[0;m\2");
-		// the final newline removed
-		// if (shell.prompt == NULL)
-		// {}//free le prompt puisque que malloc par readline
-		if (shell.prompt[0] != '\0')
-		{
-			add_history(shell.prompt);
-			ft_print_line(shell.prompt);
-			// parsing(&shell);
-			// exec(&shell);
-		}
-	}
-	(void)shell;
-	return (0);
+	prompt();
 }
