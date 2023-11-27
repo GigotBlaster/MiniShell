@@ -6,7 +6,7 @@
 /*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 13:32:23 by lenibart          #+#    #+#             */
-/*   Updated: 2023/11/27 12:08:49 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/11/27 12:23:10 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,20 +91,22 @@ t_token	*lexer(const char *input)
 			current = process_double_quotes(input, &i);
 		else if (input[i] == '\'')
 			current = process_single_quotes(input, &i);
-		frint("je suis passerpar la")
 	}
+	printf("je suis passee par la\n");
 	return (tokens);
 }
 
 void	ft_print_line(const char *input)
 {
-	t_token current;
-	current = lexer(input);
+	t_token	*tokens;
+	t_token	*current;
 
+	tokens = lexer(input);
+	current = tokens;
 	while (current != NULL)
 	{
 		printf("Token type: %d, value: %s\n", current->type, current->value);
 		current = current->next;
 	}
-	free_tokens();
+	free_tokens(tokens);
 }
