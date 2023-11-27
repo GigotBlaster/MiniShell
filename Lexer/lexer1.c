@@ -6,26 +6,26 @@
 /*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 13:32:23 by lenibart          #+#    #+#             */
-/*   Updated: 2023/11/16 12:57:19 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/11/27 12:08:49 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-Token	*createToken(TokenType type, const char *value)
+t_token	*create_token(e_TokenType type, const char *value)
 {
-	Token	*token;
+	t_token	*token;
 
-	token = (Token *)malloc(sizeof(Token));
+	token = (t_token *)malloc(sizeof(t_token));
 	token->type = type;
 	ft_strlcpy(token->value, value, MAX_TOKEN_LENGTH);
 	token->next = NULL;
 	return (token);
 }
 
-void	freeTokens(Token *tokens)
+void	free_tokens(t_token *tokens)
 {
-	Token	*temp;
+	t_token	*temp;
 
 	while (tokens != NULL)
 	{
@@ -35,12 +35,12 @@ void	freeTokens(Token *tokens)
 	}
 }
 
-Token	*processWord(const char *input, int *index)
+t_token	*process_word(const char *input, int *index)
 {
 	int			j;
 	char		word[MAX_TOKEN_LENGTH];
-	TokenType	type;
-	Token		*token;
+	e_TokenType	type;
+	t_token		*token;
 
 	j = 0;
 	while (ft_isalnum(input[*index]) || input[*index] == '$')
@@ -56,16 +56,16 @@ Token	*processWord(const char *input, int *index)
 			type = TOKEN_ENV_VARIABLE;
 		else
 			type = TOKEN_WORD;
-		token = createToken(type, word);
+		token = create_token(type, word);
 		return (token);
 	}
 	return (NULL);
 }
 
-Token	*lexer(const char *input)
+t_token	*lexer(const char *input)
 {
-	Token	*tokens;
-	Token	*current;
+	t_token	*tokens;
+	t_token	*current;
 	int		i;
 
 	tokens = NULL;
@@ -77,35 +77,34 @@ Token	*lexer(const char *input)
 			i++;
 		if (ft_isalpha(input[i]) || input[i] == '$')
 		{
-			current = processWord(input, &i);
+			current = process_word(input, &i);
 			if (tokens == NULL)
 				tokens = current;
 		}
 		else if (input[i] == '|')
-			current = processPipe(input, &i);
+			current = process_pipe(input, &i);
 		else if (input[i] == '<')
-			current = processInputRedirect(input, &i);
+			current = process_input_redirect(input, &i);
 		else if (input[i] == '>' && input[i + 1] == '>')
-			current = processOutputRedirect(input, &i);
+			current = process_output_redirect(input, &i);
 		else if (input[i] == '"')
-			current = processDoubleQuotes(input, &i);
+			current = process_double_quotes(input, &i);
 		else if (input[i] == '\'')
-			current = processSingleQuotes(input, &i);
+			current = process_single_quotes(input, &i);
+		frint("je suis passerpar la")
 	}
 	return (tokens);
 }
 
 void	ft_print_line(const char *input)
 {
-	Token	*tokens;
-	Token	*current;
+	t_token current;
+	current = lexer(input);
 
-	tokens = lexer(input);
-	current = tokens;
 	while (current != NULL)
 	{
 		printf("Token type: %d, value: %s\n", current->type, current->value);
 		current = current->next;
 	}
-	freeTokens(tokens);
+	free_tokens();
 }

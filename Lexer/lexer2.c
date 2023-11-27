@@ -6,25 +6,25 @@
 /*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 12:53:29 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/11/16 12:57:37 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/11/27 11:42:56 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-Token	*processPipe(const char *input, int *i)
+t_token	*process_pipe(const char *input, int *i)
 {
-	Token	*token;
+	t_token	*token;
 
-	token = createToken(TOKEN_PIPE, "|");
+	token = create_token(TOKEN_PIPE, "|");
 	return (token);
 }
 
-Token	*processInputRedirect(const char *input, int *i)
+t_token	*process_input_redirect(const char *input, int *i)
 {
-	Token	*token;
+	t_token	*token;
 
-	token = createToken(TOKEN_INPUT_REDIRECT, "<");
+	token = create_token(TOKEN_INPUT_REDIRECT, "<");
 	return (token);
 }
 
@@ -34,62 +34,62 @@ Token	*processInputRedirect(const char *input, int *i)
 // 	return (Token);
 // }
 
-Token	*processOutputRedirect(const char *input, int *i)
+t_token	*process_output_redirect(const char *input, int *i)
 {
-	Token	*token;
+	t_token	*token;
 
 	if (input[(*i) + 1] == '>')
 	{
-		token = createToken(TOKEN_APPEND_REDIRECT, ">>");
+		token = create_token(TOKEN_APPEND_REDIRECT, ">>");
 		i += 2;
 	}
 	else
 	{
-		token = createToken(TOKEN_OUTPUT_REDIRECT, ">");
+		token = create_token(TOKEN_OUTPUT_REDIRECT, ">");
 		i++;
 	}
 	return (token);
 }
 
-Token	*processDoubleQuotes(const char *input, int *index)
+t_token	*process_double_quotes(const char *input, int *index)
 {
-	char	doubleQuotes[MAX_TOKEN_LENGTH];
+	char	double_quotes[MAX_TOKEN_LENGTH];
 	int		j;
-	Token	*token;
+	t_token	*token;
 
 	j = 0;
 	(*index)++;
 	while (input[*index] != '"' && input[*index] != '\0')
 	{
-		doubleQuotes[j++] = input[(*index)++];
+		double_quotes[j++] = input[(*index)++];
 	}
 	if (input[*index] == '"')
 	{
-		doubleQuotes[j] = '\0';
+		double_quotes[j] = '\0';
 		(*index)++;
-		token = createToken(TOKEN_DOUBLE_QUOTES, doubleQuotes);
+		token = create_token(TOKEN_DOUBLE_QUOTES, double_quotes);
 		return (token);
 	}
 	return (NULL);
 }
 
-Token	*processSingleQuotes(const char *input, int *index)
+t_token	*process_single_quotes(const char *input, int *index)
 {
-	char	singleQuotes[MAX_TOKEN_LENGTH];
+	char	single_quotes[MAX_TOKEN_LENGTH];
 	int		j;
-	Token	*token;
+	t_token	*token;
 
 	j = 0;
 	(*index)++;
 	while (input[*index] != '\'' && input[*index] != '\0')
 	{
-		singleQuotes[j++] = input[(*index)++];
+		single_quotes[j++] = input[(*index)++];
 	}
 	if (input[*index] == '\'')
 	{
-		singleQuotes[j] = '\0';
+		single_quotes[j] = '\0';
 		(*index)++;
-		token = createToken(TOKEN_SINGLE_QUOTES, singleQuotes);
+		token = create_token(TOKEN_SINGLE_QUOTES, single_quotes);
 		return (token);
 	}
 	return (NULL);

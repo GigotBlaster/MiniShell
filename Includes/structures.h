@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:12:56 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/22 17:44:26 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/11/27 11:50:18 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_redir
 	char			*name;
 	int				fd;
 	struct s_redir	*next;
-}			t_redir;
+}					t_redir;
 
 typedef struct s_comm
 {
@@ -34,7 +34,7 @@ typedef struct s_comm
 	char			**argv;
 	t_redir			*redir;
 
-}			t_comm;
+}					t_comm;
 
 typedef struct s_shell
 {
@@ -42,8 +42,6 @@ typedef struct s_shell
 	char			*buf;
 	char			**envp;
 }					t_shell;
-
-
 
 typedef struct s_split
 {
@@ -86,9 +84,9 @@ typedef struct s_env
 	int				exported;
 }					t_env;
 
-typedef int	(*t_exec)(t_info *cmd, t_list **envl);
+typedef int			(*t_exec)(t_info *cmd, t_list **envl);
 
-typedef enum
+typedef enum token_type
 {
 	TOKEN_WORD,
 	TOKEN_PIPE,
@@ -98,15 +96,13 @@ typedef enum
 	TOKEN_DOUBLE_QUOTES,
 	TOKEN_SINGLE_QUOTES,
 	TOKEN_ENV_VARIABLE
-}					TokenType;
-
-// Structure pour représenter un token
+}					e_TokenType;
 
 typedef struct Token
 {
 	char			value[MAX_TOKEN_LENGTH];
-	TokenType		type;
+	e_TokenType		type;
 	struct Token	*next;
-}					Token;
+}					t_token;
 
 #endif

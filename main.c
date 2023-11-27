@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:54:09 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/11/23 14:26:13 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/11/27 10:45:25 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int return_value = 0; //A renommer + init avec maccro .h
+int		return_value = 0; //A renommer + init avec maccro .h
 
 void	free_lex(char **lex)
 {

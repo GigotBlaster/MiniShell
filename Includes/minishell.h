@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:57:46 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/11/23 14:24:48 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/11/27 11:45:34 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,19 @@ void		prompt(void);
 void		header(void);
 
 //TOKEN
-Token		*lexer(const char *input);
+t_token		*lexer(const char *input);
 void		ft_print_line(const char *input);
+t_token		*create_token(e_TokenType type, const char *value);
+void		free_tokens(t_token *tokens);
+t_token		*process_word(const char *input, int *index);
+t_token		*process_pipe(const char *input, int *i);
+t_token		*process_input_redirect(const char *input, int *i);
+t_token		*process_output_redirect(const char *input, int *i);
+t_token		*process_double_quotes(const char *input, int *index);
+t_token		*process_single_quotes(const char *input, int *index);
 
 //MAIN
-void	quit_all(t_shell *sh);
+void		quit_all(t_shell *sh);
 void		free_lex(char **lex);
 int			count_line(char **envp);
 char		**get_env(char **envp);
