@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:04:36 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/14 14:41:00 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/11/27 15:03:00 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ void	print_error(char *exe, char *file, int err, char *error)
 {
 	if (!error)
 		ft_putstr_fd("minishell: ", STDERR);
-	if (exe)
-	{
-		ft_putstr_fd(exe, STDERR);
-		ft_putstr_fd(": ", STDERR);
-	}
 	if (file)
 	{
 		ft_putstr_fd(file, STDERR);
+		ft_putstr_fd(": ", STDERR);
+	}
+	if (exe)
+	{
+		ft_putstr_fd(exe, STDERR);
 		ft_putstr_fd(": ", STDERR);
 	}
 	if (error)

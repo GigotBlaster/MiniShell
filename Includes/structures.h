@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:12:56 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/27 14:55:01 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/11/27 15:21:56 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,14 @@ typedef struct s_env
 	int				exported;
 }					t_env;
 
+enum
+{
+	SUCCESS = 0,
+	ERROR = 1,
+	MISUSE = 2,
+	FORK_FAIL = 4,
+	ALLOCATION_FAIL = 5,
+};
 
 typedef enum token_type
 {

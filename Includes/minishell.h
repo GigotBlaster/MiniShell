@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:57:46 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/11/27 11:45:34 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/11/27 15:19:05 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-//INCLUDES BIBLI GEN
+//BIBLI GEN
 # include <curses.h>
 # include <dirent.h>
 # include <errno.h>
@@ -36,16 +36,15 @@
 # include <termios.h>
 # include <unistd.h>
 
-//INCLUDE BIBLI PERSO
+//BIBLI PERSO
 # include "libftfull.h"
 # include "structures.h"
 
-//MACROS
+////// MACROS //////
 # define SIZE_PATH 4096
 # define NB_CMD 3
 
-//BUILTINS//
-
+////// BUILTINS //////
 /*cd*/
 int			nb_args(char **args);
 char		*search_in_env(t_list *envl, char *var);
@@ -58,11 +57,7 @@ static void	print_args(char **args, int option, int i);
 static int	echo_option(t_info *cmd);
 int			ft_echo(t_info *cmd, t_comm **envl);
 
-/*pwd*/
-void		change_stdin_stdout(t_info *cmd);
-int			ft_pdw(t_info *cmd, t_list **envl);
-
-/*env*/
+/*env trop de fonctions*/
 int			ft_env(t_info *cmd, t_list **envl);
 void		print_envl(t_list *envl, int declare);
 static void	print_unquote(t_env entry);
@@ -74,32 +69,54 @@ int			add_env(char *var, char *value, t_list **envl, int exported);
 static int	export_one(char *var, t_list **envl, int exported);
 void		ft_lstsort(t_list **begin_list, int (*cmp)());
 
+/*exit*/
+static int	ft_isnum(char *str);
+static void	free_exit(t_info *cmd, t_list **envl);
+int			ft_exit(t_info *cmd, t_list **envl);
+
+/*export_sort*/
+static void	*copy_entry(void *entry);
+static int	cmp_entry(void *data1, void *data2);
+int print_sorted(t_list *envl, t_info *cmd);
+
+/*export*/
+int ft_export(t_info *cmd, t_list **envl);
+
+/*pwd*/
+void		change_stdin_stdout(t_info *cmd);
+int			ft_pdw(t_info *cmd, t_list **envl);
+
 /*unset*/
 int			variable_match(t_list *envl, char *var, int cut);
 void		invalid_identifier(char *str, char *func, int exported);
 
-//UTILS//
-
+////// UTILS //////
 /*errors*/
 void		print_error(char *exe, char *file, int err, char *error);
 int			error_msg(int error);
+void		invalid_identifier(char *str, char *func, int exported);
 
 /*free*/
 void		free_all(char *line, t_split *split);
 void		free_tree(t_tree *tree);
 void		free_entry(void *ventry);
 static void	free_cmd(t_info *cmd);
-void		close_unused_fd(t_info *cmd);
 void		free_tab(char **args);
 
-/*use*/
-int			list_size(t_list *lst);
+/*use    trop de contions*/ 
+int			authorized_char(char *s);
+static char	*ft_strcut(char *line, char c);
+int			variable_match(t_list *envl, char *var, int cut);
+void		ft_lstsort(t_list **begin_list, int (*cmp)());
+void		close_unused_fd(t_info *cmd);
+int			list_size(t_list *begin_list);
 
-//SOURCES
-void		prompt(void);
+////// SOURCES ////
 void		header(void);
+char		*del_beg_path(const char *full_path);
+void		prompt(void);
 
-//TOKEN
+////// TOKEN ////
 t_token		*lexer(const char *input);
 void		ft_print_line(const char *input);
 t_token		*create_token(e_TokenType type, const char *value);
@@ -117,29 +134,5 @@ void		free_lex(char **lex);
 int			count_line(char **envp);
 char		**get_env(char **envp);
 void		signal_handler_prompt(int signum);
-// int	main(int ac, char **av, char **envp);
-
-typedef int	(*t_exec)(t_info *cmd, t_list **envl);
-
-// enum	{CMD, PIPE, LEFT, RIGHT, RRIGHT, SEMIC};
-// enum	{BUILTIN, EXECUTABLE, DECLARATION, EXECBIN};
-// enum	{ECHO, CD, PWD, EXPORT, UNSET, ENV, EXIT};
-// enum	{RESET, SPACE, QUOTE, DB_QUOTE, REDIR, OPERATOR};
-enum
-{
-	SUCCESS = 0,
-	PIPE_FAIL = 3,
-	FORK_FAIL = 4,
-	ALLOCATION_FAIL = 5,
-	SYNTAX_QUOTES = 6,
-	SYNTAX_REDIR = 7,
-	AMBIGUOUS_REDIR = 8,
-	TOOMANY = 24,
-	ERROR = 1,
-	MISUSE = 2,
-	CANTEXEC = 126,
-	NOTFOUND = 127,
-	CSIGINT = 130
-};
 
 #endif
