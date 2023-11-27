@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:57:46 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/11/27 15:19:05 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/11/27 20:13:55 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@
 # include <sys/time.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-# include <term.h>
 # include <termios.h>
 # include <unistd.h>
 
@@ -134,5 +133,16 @@ void		free_lex(char **lex);
 int			count_line(char **envp);
 char		**get_env(char **envp);
 void		signal_handler_prompt(int signum);
+
+
+/*    SYNTAX.C */
+int	parsing(char *input);
+
+/* SPACES.C */
+char	*addspaces(char *input);
+
+/* CREATE_CMD.C */
+
+int	is_a_redirection(char *str);
 
 #endif

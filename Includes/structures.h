@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:12:56 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/27 15:21:56 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/11/27 18:34:46 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,4 +99,11 @@ typedef struct Token
 	struct Token	*next;
 }					t_token;
 
+typedef struct s_cmd
+{
+    int     *redirections;
+    char    **fichiers;
+    char    **arguments;
+    char    *command;
+}           t_cmd;
 #endif

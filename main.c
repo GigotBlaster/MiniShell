@@ -6,7 +6,7 @@
 /*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:54:09 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/11/27 10:45:25 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/11/27 16:50:15 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,6 @@ int	main(int ac, char **av, char **envp)
 {
 	(void)ac;
 	(void)av;
+	// copyenv
 	prompt();
 }
