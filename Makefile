@@ -6,7 +6,7 @@
 #    By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/13 11:57:52 by ibouhssi          #+#    #+#              #
-#    Updated: 2023/11/15 13:59:24 by ibouhssi         ###   ########.fr        #
+#    Updated: 2023/11/28 22:42:18 by ibouhssi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ _OK            = [\033[32mOK\033[0m]
 
 %.o            : %.c $(INCS_DIR)/minishell.h
 			@echo "[..] $(NAME_SHORT)... compiling $*.c\r\c"
-			@$(CC) $(MAIN_INC) -c $< -o $@
+			@$(CC) $(MAIN_INC) -c $< -o $@ -g3
 			@echo "$(_CLEAR)"
 
 all            : $(NAME)

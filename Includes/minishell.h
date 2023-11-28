@@ -6,7 +6,7 @@
 /*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:57:46 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/11/27 20:13:55 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/11/28 21:02:16 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@
 ////// MACROS //////
 # define SIZE_PATH 4096
 # define NB_CMD 3
+# define SQ '\''
+# define DQ '\"'
 
 ////// BUILTINS //////
 /*cd*/
@@ -113,7 +115,7 @@ int			list_size(t_list *begin_list);
 ////// SOURCES ////
 void		header(void);
 char		*del_beg_path(const char *full_path);
-void		prompt(void);
+void	prompt(t_info	*info);
 
 ////// TOKEN ////
 t_token		*lexer(const char *input);
@@ -145,4 +147,7 @@ char	*addspaces(char *input);
 
 int	is_a_redirection(char *str);
 
+/* EXPAND.C */
+
+char *expand(char *str, char **env);   
 #endif

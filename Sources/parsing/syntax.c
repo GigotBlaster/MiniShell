@@ -6,7 +6,7 @@
 /*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 17:11:22 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/11/27 20:19:35 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/11/28 19:49:26 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ int	parsing(char *input)
 {
 	if (quote_error(input))
 		return (1);
-	input = addspaces(input);
 	if (syntax_error(ft_split(input, " \t")))
 		return (1);
 	return (0);

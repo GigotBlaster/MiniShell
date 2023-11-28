@@ -6,7 +6,7 @@
 /*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 14:56:28 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/27 20:19:23 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/11/28 22:58:04 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	header(void)
 // 		return (ft_strdup(full_path));
 // }
 
-void	prompt(void)
+void	prompt(t_info	*info)
 {
 	t_shell	shell;
 	char	cwd[SIZE_PATH];
@@ -51,11 +51,13 @@ void	prompt(void)
 		if (!*shell.buf)
 			continue ;
 		add_history(shell.buf);
+		shell.buf = addspaces(shell.buf);
 		if (parsing(shell.buf))
 			continue ;
 		ft_putstr("ok parsing!\n");
 		// here_doc
-		// expand
+		// expand presque fini
+		shell.buf = expand(shell.buf, info->env);
 		// exec
 			// appeler CREATE_CMD
 			// if nbcmd == 1 && cmd == BUILTIN
