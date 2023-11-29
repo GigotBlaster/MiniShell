@@ -6,7 +6,7 @@
 /*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 14:56:28 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/28 22:58:04 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/11/29 23:33:44 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	prompt(t_info	*info)
 			continue ;
 		ft_putstr("ok parsing!\n");
 		// here_doc
-		// expand presque fini
+		// expand fini
 		shell.buf = expand(shell.buf, info->env);
 		// exec
 			// appeler CREATE_CMD
@@ -69,7 +69,7 @@ void	prompt(t_info	*info)
 				// fork
 					// child
 						// createcmd FAIT
-						// redirection NAEL
+						// redirection NAELLE
 						// retirer quotes JSP char *str = noquote(char *str)
 						// builtin || execve
 
@@ -94,6 +94,6 @@ void	prompt(t_info	*info)
 // fork
 	// child
 		// createcmd FAIT
-		// redirection NAEL
+		// redirection NAELLE
 		// retirer quotes JSP char *str = noquote(char *str)
 		// builtin || execve

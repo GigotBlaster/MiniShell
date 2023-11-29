@@ -6,7 +6,7 @@
 /*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 19:46:00 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/11/28 22:52:38 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/11/29 23:24:42 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,70 +29,90 @@
 //  NULL = USER_SDA1sas
 //  NULL = USERA
 //  avion$USERfhfj
-char *copy_env(char *str)
+char	*copy_env(char *str)
 {
-    int i;
-    char *new;
-    i = 0;
-    new = NULL;
-    while(str[i] != '=')
-        i++;
-    if(str[i] == '=')
-    {
-        i++;
-        new = strdup(&str[i]);
-    }
-    ft_printf("Value == [%s]\n", new);
-    return(new);
+	int		i;
+	char	*new;
+
+	i = 0;
+	new = NULL;
+	while (str[i] != '=')
+		i++;
+	if (str[i] == '=')
+	{
+		i++;
+		new = strdup(&str[i]);
+	}
+	return (new);
 }
 
-char    *get_value_from_key(char *src, char **env)
+int	ft_strncmp_mini(const char *s1, const char *s2, size_t n)
 {
-    int y;
-    char *path;
-    
-    path = NULL;
-    y = 0;
-    while(env[y])
-    {
-        if (ft_strncmp(src, env[y], ft_strlen(src)) == 0)
-        {
-            path = copy_env(env[y]);
-            if (path == NULL)
-                return(NULL);
-        }
-        y++;
-    }
-    return(path);
+	size_t			i;
+	unsigned char	*str1;
+	unsigned char	*str2;
+
+	str1 = (unsigned char *)s1;
+	str2 = (unsigned char *)s2;
+	i = 0;
+	if (n == 0)
+		return (1);
+	while (i < n && str1[i] && str2[i] && str1[i] == str2[i])
+		i++;
+	if(str2[i++] == '=')
+		return(0);
+	//if (i < n)
+	//	return (str1[i] - str2[i]);
+	return (1);
+}
+
+char	*get_value_from_key(char *src, char **env)
+{
+	int		y;
+	char	*path;
+
+	path = NULL;
+	y = 0;
+
+	while (env[y])
+	{
+		if (ft_strncmp_mini(src, env[y], ft_strlen(src)) == 0)
+		{
+			path = copy_env(env[y]);
+			if (path == NULL)
+				return (NULL);
+		}
+		y++;
+	}
+	return (path);
 }
 
 char	*get_value(char *str, int *index, char **env)
 {
 	int		i;
-    char    c;
-    char    *value;
-
+	char	c;
+	char	*value;
+	int		tmp;
 
 	i = 0;
 	if (ft_isdigit(str[*index]))
 		return (&str[*index + 1]);
 	while (ft_isalnum(str[*index + i]) || str[*index + i] == '_')
 		i++;
-    c = str[*index + i];
-    str[*index + i] = '\0';
-    value = get_value_from_key(&str[*index], env);
-    int tmp = ft_strlen(&str[*index]);
-    str[*index + i] = c;
-    *index += tmp;
+	c = str[*index + i];
+	str[*index + i] = '\0';
+	value = get_value_from_key(&str[*index], env);
+	tmp = ft_strlen(&str[*index]);
+	str[*index + i] = c;
+	*index += tmp;
 	return (value);
 }
 
 int	get_key_len(char *str, int *index)
 {
 	int		i;
-    char    c;
-    char    *value;
-
+	char	c;
+	char	*value;
 
 	i = 0;
 	if (ft_isdigit(str[*index]))
@@ -121,8 +141,8 @@ int	len_expand(char *str, char **env)
 				i++;
 				len++;
 			}
-            if (!str[i])
-                break ;
+			if (!str[i])
+				break ;
 			i++;
 			len++;
 		}
@@ -132,18 +152,18 @@ int	len_expand(char *str, char **env)
 			len++;
 			while (str[i] && str[i] != DQ)
 			{
-                while (str[i] == '$')
-                {
-                    i++;
-                    var = get_value(str, &i, env);
-                    if (var)
-                        len += strlen(var);
-                }
+				while (str[i] == '$')
+				{
+					i++;
+					var = get_value(str, &i, env);
+					if (var)
+						len += strlen(var);
+				}
 				i++;
 				len++;
 			}
-            if (!str[i])
-                break ;
+			if (!str[i])
+				break ;
 			i++;
 			len++;
 		}
@@ -159,24 +179,99 @@ int	len_expand(char *str, char **env)
 					len += strlen(var);
 			}
 		}
-        if (!str[i])
-            break;
+		if (!str[i])
+			break ;
 		i++;
 		len++;
 	}
-    
-    
-    
-    //printf("len == %d\n", len);
 	return (len);
+}
+
+char	*str_expand(char *str, char **env)
+{
+	int		len;
+	int		i;
+	char	*var;
+	char	*dest;
+
+	// char	*dest;
+	i = 0;
+	len = 0;
+	dest = calloc(sizeof(char), (len_expand(str, env) + 1));
+	while (str[i])
+	{
+		if (str[i] == SQ)
+		{
+			dest[len] = str[i];
+			i++;
+			len++;
+			while (str[i] && str[i] != SQ)
+			{
+				dest[len] = str[i];
+				i++;
+				len++;
+			}
+			if (!str[i])
+				break ;
+			dest[len] = str[i];
+			i++;
+			len++;
+		}
+		if (str[i] == DQ)
+		{
+			dest[len++] = str[i++];
+			while (str[i] && str[i] != DQ)
+			{
+				while (str[i] == '$')
+				{
+					i++;
+					var = get_value(str, &i, env);
+					if (var)
+					{
+						len += strlen(var);
+						strcat(dest, var);
+					}
+				}
+				dest[len++] = str[i++];
+			}
+			if (!str[i])
+				break ;
+			dest[len++] = str[i++];
+		}
+		if (!str[i])
+			break ;
+		else
+		{
+			while (str[i] == '$')
+			{
+				i++;
+				var = get_value(str, &i, env);
+				if (var)
+				{
+					len += strlen(var);
+					strcat(dest, var);
+				}
+			}
+		}
+		if (!str[i])
+			break ;
+		dest[len++] = str[i++];
+	}
+	dest[len] = '\0';
+	return (dest);
 }
 
 char	*expand(char *str, char **env)
 {
-	(void)env;
-	printf("value = %s\n", str);
-	printf("input = %zu\n", strlen(str));
-    // char *new = malloc(sizeof(char) * (len_expand(str, env)) + 1);
-    printf("output = %i\n", len_expand(str, env));
+	char *new; // = malloc(sizeof(char) * (len_expand(str, env)));
+	new = str_expand(str, env);
+	// printf("LEN NEW = [%zu]\n", ft_strlen(new));
+	printf("NEW = [%s]\n", new);
 	return (str);
 }
+
+// int main(int ac, char **av, char **env)
+// {
+// 	char str[] = "hello";
+// 	printf("%s\n", expand(str, env));
+// }

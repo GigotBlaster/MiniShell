@@ -3,15 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 14:35:57 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/15 16:06:50 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/11/29 19:10:21 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// AVIONA=TRAIN
+// AVION=BATEAU
+
+// key = avion = len 5;
+// strcnmp(AVION, AVIONA=TRAIN, 5) == 0
 //désactiver une variable d'env spécifique
 static void	unset_one(char *to_unset, t_list *envl)
 {
@@ -59,3 +64,4 @@ int			ft_unset(t_info *cmd, t_list **envl)
 	}
 	return (ret); // Retourner le statut de l'opération unset
 }
+

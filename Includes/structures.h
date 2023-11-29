@@ -6,7 +6,7 @@
 /*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:12:56 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/28 20:05:04 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/11/29 17:19:01 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,25 +79,6 @@ enum
 	FORK_FAIL = 4,
 	ALLOCATION_FAIL = 5,
 };
-
-typedef enum token_type
-{
-	TOKEN_WORD,
-	TOKEN_PIPE,
-	TOKEN_INPUT_REDIRECT,
-	TOKEN_OUTPUT_REDIRECT,
-	TOKEN_APPEND_REDIRECT,
-	TOKEN_DOUBLE_QUOTES,
-	TOKEN_SINGLE_QUOTES,
-	TOKEN_ENV_VARIABLE
-}					e_TokenType;
-
-typedef struct Token
-{
-	char			value[MAX_TOKEN_LENGTH];
-	e_TokenType		type;
-	struct Token	*next;
-}					t_token;
 
 typedef struct s_cmd
 {

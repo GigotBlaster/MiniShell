@@ -1,33 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcat.c                                       :+:      :+:    :+:   */
+/*   ft_strcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 13:32:21 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/10/26 13:32:22 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/11/29 13:20:54 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftfull.h"
 
-size_t	ft_strlcat(char *dst, const char *src, size_t size)
+char	*ft_strcat(char *dst, const char *src)
 {
 	size_t	d;
-	size_t	s;
 	size_t	i;
 
 	d = ft_strlen(dst);
-	s = ft_strlen(src);
-	if (size <= d)
-		return (size + s);
-	i = d;
-	while (i + 1 < size && src[i - d])
+	i = 0;
+
+	if(dst[i] == '\0')
+		return(NULL);
+	while (src[i])
 	{
-		dst[i] = (char)(src[i - d]);
+		dst[d + i] = src[i];
 		i++;
 	}
-	dst[i] = '\0';
-	return (s + d);
+	return (dst);
 }

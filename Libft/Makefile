@@ -44,7 +44,7 @@ SRCS		= convert/ft_atoi.c \
 			  string/ft_strchr.c \
 			  string/ft_strdup.c \
 			  string/ft_strjoin.c \
-			  string/ft_strlcat.c \
+			  string/ft_strcat.c \
 			  string/ft_strlcpy.c \
 			  string/ft_strlen.c \
 			  string/ft_strmapi.c \

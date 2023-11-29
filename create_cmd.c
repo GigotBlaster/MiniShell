@@ -6,7 +6,7 @@
 /*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 16:09:23 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/11/28 16:09:23 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/11/29 12:52:46 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,20 +128,20 @@ t_cmd	*token(char *str)
 
 /*  ------------------- fonction d affichage ----------------------------- */
 
-void	print_cmd(t_cmd *cmd)
-{
-	for (int i = 0; cmd->fichiers[i]; i++)
-	{
-		fprintf(stderr, "redirection %d, type is %d\n", i,
-				cmd->redirections[i]);
-		fprintf(stderr, "redirected in/from : %s\n", cmd->fichiers[i]);
-	}
-	fprintf(stderr, "command name : %s\n", cmd->command);
-	for (int i = 0; cmd->arguments[i]; i++)
-	{
-		fprintf(stderr, "argument %d, value is %s\n", i, cmd->arguments[i]);
-	}
-}
+// void	print_cmd(t_cmd *cmd)
+// {
+// 	for (int i = 0; cmd->fichiers[i]; i++)
+// 	{
+// 		fprintf(stderr, "redirection %d, type is %d\n", i,
+// 				cmd->redirections[i]);
+// 		fprintf(stderr, "redirected in/from : %s\n", cmd->fichiers[i]);
+// 	}
+// 	fprintf(stderr, "command name : %s\n", cmd->command);
+// 	for (int i = 0; cmd->arguments[i]; i++)
+// 	{
+// 		fprintf(stderr, "argument %d, value is %s\n", i, cmd->arguments[i]);
+// 	}
+// }
 
 // int	main(int ac, char **av)
 // {

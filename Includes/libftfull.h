@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libftfull.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 14:08:04 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/15 16:17:44 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/11/29 13:21:54 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			ft_strcmp(const char *s1, const char *s2);
 size_t		ft_strlcpy(char *dst, const char *src, size_t size);
 char		*ft_strnstr(const char *big, const char *little, size_t len);
-size_t		ft_strlcat(char *dst, const char *src, size_t size);
+char		*ft_strcat(char *dst, const char *src);
 int			ft_tolower(int c);
 int			ft_toupper(int c);
 char		*ft_strdup(const char *s);

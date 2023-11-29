@@ -6,7 +6,7 @@
 /*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 13:58:53 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/28 18:10:49 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/11/29 13:21:36 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_strncpy(char *dst, char *src, size_t n);
 size_t		ft_strlcpy(char *dst, const char *src, size_t size);
 char		*ft_strnstr(const char *big, const char *little, size_t len);
-size_t		ft_strlcat(char *dst, const char *src, size_t size);
+char		*ft_strcat(char *dst, const char *src);
 int			ft_tolower(int c);
 int			ft_toupper(int c);
 char		*ft_strdup(const char *s);
