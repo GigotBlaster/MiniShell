@@ -3,57 +3,105 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+         #
+#    By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/13 11:57:52 by ibouhssi          #+#    #+#              #
-#    Updated: 2023/11/28 22:42:18 by ibouhssi         ###   ########.fr        #
+#    Updated: 2023/11/30 19:11:51 by npetitpi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CFLAGS	= -Wall -Werror -Wextra -g3
-CC		= cc
-RM            = rm -rf
 NAME          = ./minishell
-NAME_SHORT    = minishell
 
-INCS_DIR    = Includes
-MAIN_INC    = -I$(INCS_DIR)
-INCS        = $(shell find $(INCS_DIR) -type f -name "*.h")
 
-SRCS_DIR     = Sources
-SRCS        = $(shell find $ -type f -name "*.c")
+NAME			=	minishell
 
-OBJS        = $(SRCS:.c=.o)
+LIBFT			=	libft.a
 
-_COLOR        = \033[32m
-_BOLDCOLOR    = \033[32;1m
-_RESET        = \033[0m
-_CLEAR        = \033[0K\r\c
-_OK            = [\033[32mOK\033[0m]
+DIR_SRCS		=	Sources
 
-%.o            : %.c $(INCS_DIR)/minishell.h
-			@echo "[..] $(NAME_SHORT)... compiling $*.c\r\c"
-			@$(CC) $(MAIN_INC) -c $< -o $@ -g3
-			@echo "$(_CLEAR)"
+DIR_OBJS		=	Objets
 
-all            : $(NAME)
+CFLAGS			= -Wall -Werror -Wextra -g3
+CC				= cc
+RM      	    = rm -rf
 
-$(NAME)        : $(OBJS) 
-			@$(CC) $(CFLAGS) -lreadline $(OBJS)  -o $(NAME)
-			@echo "$(_OK) $(NAME_SHORT) compiled"
+SRCS_NAMES		= Builtins/unset.c \
+				  Builtins/export_sort.c \
+				  Builtins/exit.c.c \
+				  Builtins/cd.c \
+				  Builtins/env.c \
+				  Builtins/echo.c \
+				  Builtins/export.c \
+				  Builtins/pwd.c \
+				  Parsing/spaces.c \
+				  Parsing/expand.c \
+				  Parsing/syntax.c \
+				  main.c \
+				  Prompt.c \
+				  Execution/exec.c \
+				  Utils/u2pipex.c \
+				  Utils/upipex.c \
+				  Utils/errors.c \
+				  Utils/use.c \
+				  Utils/pipex.c \
+				  Utils/free.c \
 
+
+OBJS_NAMES		=	${SRCS_NAMES:.c=.o}
+
+DEPS			=	${SRCS_NAMES:.c=.d}
+
+SRCS			=	$(addprefix $(DIR_SRCS)/,$(SRCS_NAMES))
+
+OBJS			=	$(addprefix $(DIR_OBJS)/,$(OBJS_NAMES))
+
+INC				=	-IIncludes -ILibft/Includes
+
+LIB				=	-lreadline -lm -LLibft -lft
+
+
+all:	${NAME}
+
+$(NAME): $(DIR_OBJS) $(OBJS) 
+	@make -C Libft > /dev/null
+	@$(CC) -g3 ${INC} $(OBJS) $(LIB) -o $(NAME) > /dev/null
+	@printf "\033[32mMiniShell compiled\033[0m$(SPACES)"
+
+$(OBJS) : $(DIR_OBJS)/%.o : $(DIR_SRCS)/%.c
+	@printf "[..] $(NAME) compiling... $*.c\r" && $(CC) -g3 $(CDFLAGS) $(INC) -c $< -o $@ && printf "$(_CLEAR)"
+
+$(DIR_OBJS):
+	@mkdir -p $(DIR_OBJS) > /dev/null
+	@mkdir -p $(DIR_OBJS)/Builtins > /dev/null
+	@mkdir -p $(DIR_OBJS)/Execution > /dev/null
+	@mkdir -p $(DIR_OBJS)/Parsing > /dev/null
+	@mkdir -p $(DIR_OBJS)/Utils > /dev/null
 
 clean:
-	@$(RM) $(OBJS)
+	@make clean -C Libft > /dev/null
+	@rm -rf ${DIR_OBJS}
 
 fclean: clean
-	@$(RM) $(OBJS) $(NAME) 2>/dev/null
+	@make fclean -C Libft > /dev/null
+	@rm -rf ${LIBFT}
+	@rm -rf ${NAME}
 
-re: fclean all
+leaks: ${NAME}
+	clear && valgrind --suppressions=ignore.txt -s --track-fds=yes --leak-check=full --show-leak-kinds=all ./minishell
 
-.PHONY = all clean fclean re
+leask: $(NAME)
+	clear && valgrind --suppressions=ignore.txt -s --track-fds=yes --leak-check=full --show-leak-kinds=all ./minishell
 
-norme        :
-			@norminette $(SRCS) $(INCS)
 
-.PHONY        : all clean fclean re norme
+env: $(NAME)
+	env -i ./minishell
+
+stop:
+	rm -rf ${NAME}
+
+re:	fclean all
+
+-include $(DEPS)
+
+.PHONY:	all clean fclean re bonus leaks stop
+# .SILENT:

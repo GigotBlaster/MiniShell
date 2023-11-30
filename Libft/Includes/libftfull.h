@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   libftfull.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/26 13:58:53 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/29 13:21:36 by ibouhssi         ###   ########.fr       */
+/*   Created: 2023/10/26 14:08:04 by npetitpi          #+#    #+#             */
+/*   Updated: 2023/11/30 17:58:25 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFTFULL_H
 # define LIBFTFULL_H
-# include "libftstruct.h"
+# include "libftstructures.h"
 # include <stdarg.h>
 # include <stdlib.h>
 # include <string.h>
@@ -21,7 +21,7 @@
 #  define BUFFER_SIZE 4095
 # endif
 
-////LIBFT////
+// LIBFT
 
 void		*ft_memset(void *s, int c, size_t n);
 void		*ft_bzero(void *s, size_t n);
@@ -40,9 +40,9 @@ size_t		ft_strlen(const char *s);
 char		*ft_strchr(const char *s, int c);
 char		*ft_strrchr(const char *s, int c);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
-int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_strncpy(char *dst, char *src, size_t n);
 size_t		ft_strlcpy(char *dst, const char *src, size_t size);
+int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_strnstr(const char *big, const char *little, size_t len);
 char		*ft_strcat(char *dst, const char *src);
 int			ft_tolower(int c);
@@ -82,13 +82,15 @@ int			ft_isspace(char c);
 int			ft_max(int a, int b);
 int			ft_min(int a, int b);
 
-////GNL////
+// GET_NEXT_LINE
 
 char		*join_and_realloc(char *s, char *buf, size_t size);
 int			find_char_index(char *str, char c);
 int			get_next_line(int fd, char **line);
 
-////PRINTF////
+// FT_PRINTF
+
+typedef int	(*t_func)(t_print, va_list);
 
 int			size_int(t_print param, char *nb_itoa);
 int			size_ptr(unsigned long ptr, int prec);
@@ -102,7 +104,6 @@ int			is_all_coherent(const char *str);
 const char	*print_str_classic(const char *str, int *nb_char, int fd);
 void		print_param(t_print p, va_list args, int *nb_char);
 int			ft_printf(const char *str, ...);
-int			ft_printf_fd(int fd, const char *str, ...);
 void		fill_str_s(char **to_print, char *str, t_print param, int size);
 void		fill_int_right_p(char **to_print, char *nb, t_print par, int size);
 void		fill_int_right(char **to_print, char *nb, int size);

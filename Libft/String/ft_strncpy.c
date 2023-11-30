@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 13:13:22 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/11/28 18:10:42 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/11/30 15:38:32 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,15 @@ char	*ft_strncpy(char *dst, char *src, size_t n)
 		i++;
 	}
 	return (dst);
+}
+
+
+char *ft_strncpy_pipe(char *s1, char *s2, int n)
+{
+	int i = -1;
+
+	while (++i < n && s2[i])
+		s1[i] = s2[i];
+	s1[i] = '\0';
+	return (s1);
 }

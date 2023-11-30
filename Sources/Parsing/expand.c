@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 19:46:00 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/11/29 23:24:42 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/11/30 17:15:35 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,9 @@ int	ft_strncmp_mini(const char *s1, const char *s2, size_t n)
 	str1 = (unsigned char *)s1;
 	str2 = (unsigned char *)s2;
 	i = 0;
-	if (n == 0)
-		return (1);
 	while (i < n && str1[i] && str2[i] && str1[i] == str2[i])
 		i++;
+	
 	if(str2[i++] == '=')
 		return(0);
 	//if (i < n)
@@ -69,22 +68,15 @@ int	ft_strncmp_mini(const char *s1, const char *s2, size_t n)
 char	*get_value_from_key(char *src, char **env)
 {
 	int		y;
-	char	*path;
-
-	path = NULL;
 	y = 0;
 
-	while (env[y])
+	while(env && env[y])
 	{
-		if (ft_strncmp_mini(src, env[y], ft_strlen(src)) == 0)
-		{
-			path = copy_env(env[y]);
-			if (path == NULL)
-				return (NULL);
-		}
+		if (!ft_strncmp(src, env[y], ft_strlen(src)) &&  env[y][ft_strlen(src)] == '=')
+			return (copy_env(env[y]));
 		y++;
 	}
-	return (path);
+	return (NULL);
 }
 
 char	*get_value(char *str, int *index, char **env)
@@ -102,6 +94,10 @@ char	*get_value(char *str, int *index, char **env)
 	c = str[*index + i];
 	str[*index + i] = '\0';
 	value = get_value_from_key(&str[*index], env);
+	
+	// if (!value)
+	// 	return (NULL);
+	
 	tmp = ft_strlen(&str[*index]);
 	str[*index + i] = c;
 	*index += tmp;
@@ -231,6 +227,10 @@ char	*str_expand(char *str, char **env)
 						len += strlen(var);
 						strcat(dest, var);
 					}
+					// else
+					// {
+					// 	printf("in {%s}, var == NULL\n", __func__);
+					// }
 				}
 				dest[len++] = str[i++];
 			}

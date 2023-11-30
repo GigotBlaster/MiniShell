@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:12:56 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/29 17:19:01 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/11/30 17:23:45 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ typedef struct s_comm
 
 typedef struct s_shell
 {
-	char			*buf;
 }					t_shell;
 
 typedef struct s_split
@@ -70,6 +69,16 @@ typedef struct s_env
 	char			*value;
 	int				exported;
 }					t_env;
+
+typedef struct s_pipex {
+	char			*buf;
+	int pipe_fd[2];
+	char **env;
+	int prev;
+	int nbcmd;
+	char **cmds;
+	int  *pid;
+}	t_pipex;
 
 enum
 {

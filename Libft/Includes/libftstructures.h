@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libftstruct.h                                      :+:      :+:    :+:   */
+/*   libftstrcutures.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/26 13:59:01 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/10/26 14:03:14 by npetitpi         ###   ########.fr       */
+/*   Created: 2023/11/07 14:11:01 by npetitpi          #+#    #+#             */
+/*   Updated: 2023/11/15 16:18:12 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,19 @@
 #  define BUFFER_SIZE 4095
 # endif
 
-typedef struct s_list
+typedef struct		s_list
 {
 	void			*content;
 	struct s_list	*next;
-}				t_list;
+}					t_list;
 
-typedef struct s_buffer
+typedef struct		s_buffer
 {
 	int				size;
 	char			content[BUFFER_SIZE + 1];
-}				t_buffer;
+}					t_buffer;
 
-typedef struct s_print
+typedef struct		s_print
 {
 	int				align;
 	int				zero;
@@ -40,7 +40,7 @@ typedef struct s_print
 	int				precision;
 	int				type;
 	int				fd;
-}				t_print;
+}					t_print;
 
 typedef int	(*t_func)(t_print, va_list);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 13:32:11 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/29 23:04:35 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/11/30 17:50:30 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_strcmp(const char *s1, const char *s2)
 	str1 = (unsigned char *)s1;
 	str2 = (unsigned char *)s2;
 	i = 0;
-	while (str1[i] && str2[i] && str1[i] == str2[i] || str2[i] == '=')
+	while (str1[i] && str2[i] && (str1[i] == str2[i]))
 		i++;
 	return (str1[i] - str2[i]);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:57:46 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/11/29 17:45:39 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/11/30 18:00:33 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 # include <unistd.h>
 
 //BIBLI PERSO
-# include "libftfull.h"
+# include "../Libft/Includes/libftfull.h"
 # include "structures.h"
 
 ////// MACROS //////
@@ -112,13 +112,28 @@ void		ft_lstsort(t_list **begin_list, int (*cmp)());
 void		close_unused_fd(t_info *cmd);
 int			list_size(t_list *begin_list);
 
+/*pipex*/
+int		ft_counter(char const *s, char c);
+void	ft_free(char **strs, int words_index);
+char	**ft_pipexsplit(char *s, char c);
+char	**ft_pipexsplit2(const char *s, char c, char **strs, int nb_words);
+char	*acces_command(char *cmd_name, char **paths);
+char	*find_path(char *cmd_name, char **env);
+void	ft_pipexfree(char **strs, int words_index);
+void	ft_pipexfrees(char **paths);
+int		ft_pipexstrncmp(char *str1, char *str2, size_t n);
+size_t	ft_pipexstrlcpy(char *dst, const char *src, size_t size);
+char	*ft_pipexstrjoin(char *s1, char *s2);
+size_t	ft_pipexstrlen(const char *str);
+int ft_pipe(t_pipex *pipex, char **av, char **env); //char **av res split tableau
+
 ////// SOURCES ////
 void		header(void);
 char		*del_beg_path(const char *full_path);
-void	    prompt(t_info	*info);
+void	prompt(t_info	*info);
 
 //MAIN
-void		quit_all(t_shell *sh);
+void		quit_all(t_pipex *sh);
 void		free_lex(char **lex);
 int			count_line(char **envp);
 char		**get_env(char **envp);

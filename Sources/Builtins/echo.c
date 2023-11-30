@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:02:12 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/27 18:32:12 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/11/29 11:34:40 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void	print_args(char **args, int option, int i)
 	while (args[i] && args[i + 1])
 	{
 		ft_putstr(args[i]);
+	
 		ft_putstr(" ");
 		i++;
 	}

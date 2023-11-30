@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:54:09 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/11/28 21:21:42 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/11/30 17:25:13 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	**get_env(char **envp)
 	return (res);
 }
 
-void	quit_all(t_shell *sh)
+void	quit_all(t_pipex *sh)
 {
 	rl_clear_history();
 	ft_putendl_fd("exit", 2);
@@ -84,3 +84,5 @@ int	main(int ac, char **av, char **envp)
 	info.env = get_env(envp);
 	prompt(&info);
 }
+
+
