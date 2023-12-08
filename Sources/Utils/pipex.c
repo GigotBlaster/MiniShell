@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 17:54:20 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/08 13:37:18 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/08 13:57:04 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,130 +227,81 @@ int	check_built_in_exp(t_pipex *p, char *str) //suz
 	return (0);
 }
 
-void child_process(t_pipex *pipex, char *arg, int i)
+void	child_process(t_pipex *pipex, char *arg, int i)
 {
-    t_cmd   *all;
-    char    *cmd;
+	t_cmd	*all;
+	char	*cmd;
 
-    all = token(arg);   // create_cmd
-    file(NULL, all, i);
-    if (check_built_in_exp(pipex, arg))
-    {
-        printf("built in success\n");
-        exit(0);
-    }
-    free(pipex->pid);
-    all->environnement = pipex->env;
-    cmd = find_path(all->command, pipex->env);
-    if (cmd)
-    {
-        close(pipex->pipe_fd[0]); // fermer le descripteur de lecture du pipe
-        if (i > 0)
-        {
+	all = token(arg);   // create_cmd
+	file(NULL, all, i); 
+	if (check_built_in_exp(pipex, arg))
+	{
+		printf("built in success\n");
+		exit(0);
+	}
+	free(pipex->pid);
+	all->environnement = pipex->env;
+	cmd = find_path(all->command, pipex->env);
+	if (cmd)
+	{
+		close(pipex->pipe_fd[0]); // fermer le descripteur de lecture du pipe
+        if (i > 0) {
             close(pipex->prev); // fermer le descripteur d'entrée standard
         }
-        if (i < pipex->nbcmd - 1)
-        {
+        if (i < pipex->nbcmd - 1) {
             close(pipex->pipe_fd[1]); // fermer le descripteur d'écriture du pipe
         }
-        execve(cmd, all->arguments, pipex->env);
-        perror("execve"); // En cas d'échec de l'exécution de la commande
-        exit(1);  // Ajout : sortie explicite du processus fils
-    }
-    printf("%s: command not found\n", all->command);
-    exit(127);  // Ajout : sortie explicite du processus fils
+		execve(cmd, all->arguments, pipex->env);
+	}
+	printf("%s: command not found\n", all->command);
+	exit(127);
 }
 
-
-void process(t_pipex *pipex)
+void parent_process(t_pipex *pipex)
 {
-    int i;
-    int fd_in = STDIN_FILENO;
-
-    for (i = 0; i < pipex->nbcmd; i++)
-    {
-        pipe(pipex->pipe_fd);
-        pipex->pid[i] = fork();
-
-        if (pipex->pid[i] == 0)
-        {
-            close(pipex->pipe_fd[0]);
-
-            if (i > 0)
-            {
-                dupclose(fd_in, STDIN_FILENO);
-                close(fd_in);
-            }
-
-            if (i < pipex->nbcmd - 1)
-            {
-                dupclose(pipex->pipe_fd[1], STDOUT_FILENO);
-                close(pipex->pipe_fd[1]);
-            }
-
-            child_process(pipex, pipex->cmds[i], i);
-        }
-        else
-        {
-            close(pipex->pipe_fd[1]);
-            fd_in = pipex->pipe_fd[0];
-        }
-    }
-
-    // Fermer le descripteur de fichier de lecture du pipe dans le processus parent
-    close(pipex->pipe_fd[0]);
-
-    for (i = 0; i < pipex->nbcmd; i++)
-    {
-        waitpid(pipex->pid[i], NULL, 0);
-    }
-
-    // Fermer les descripteurs de fichiers associés aux processus fils
-    for (i = 0; i < pipex->nbcmd; i++)
-    {
-        close(pipex->pid[i]);
-    }
+    if (pipex->prev != -1) 
+        close(pipex->prev);
+    close(pipex->pipe_fd[1]);
+    pipex->prev = pipex->pipe_fd[0];
 }
 
+void	process(t_pipex *pipex)
+{
+	int	i;
 
-
-
-// void	process(t_pipex *pipex)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	int	fd_in = STDIN_FILENO;
-// 	while (i < pipex->nbcmd)
-// 	{
-// 		pipe(pipex->pipe_fd);
-// 		pipex->pid[i] = fork();
-// 		if (pipex->pid[i] == 0)
-// 		{
-// 			close(pipex->pipe_fd[0]);
-// 			if (i > 0)
-// 			{
-// 				dupclose(fd_in, STDIN_FILENO);
-// 				close(fd_in);
-// 			}
-// 			if (i < pipex->nbcmd - 1)
-// 			{
-// 				dupclose(pipex->pipe_fd[1], STDOUT_FILENO);
-// 				close(pipex->pipe_fd[1]);
-// 			}
-// 			child_process(pipex, pipex->cmds[i], i);
-// 		}
-// 		else
-// 		{
-// 			close(pipex->pipe_fd[1]); 
-// 			fd_in = pipex->pipe_fd[0];
-// 		}
-// 		i++;
-// 	}
-// 	for (int i = 0; i < pipex->nbcmd; i++)
-// 		waitpid(pipex->pid[i], NULL, 0);
-// 	close(pipex->pipe_fd[0]);
-// }
+	i = 0;
+	int	fd_in = STDIN_FILENO;
+	while (i < pipex->nbcmd)
+	{
+		pipe(pipex->pipe_fd);
+		pipex->pid[i] = fork();
+		if (pipex->pid[i] == 0)
+		{
+			close(pipex->pipe_fd[0]);
+			if (i > 0)
+			{
+				dupclose(fd_in, STDIN_FILENO);
+				close(fd_in);
+			}
+			if (i < pipex->nbcmd - 1)
+			{
+				dupclose(pipex->pipe_fd[1], STDOUT_FILENO);
+				close(pipex->pipe_fd[1]);
+			}
+			child_process(pipex, pipex->cmds[i], i);
+		}
+		else
+		{
+			parent_process(pipex);
+			close(pipex->pipe_fd[1]); 
+			fd_in = pipex->pipe_fd[0];
+		}
+		i++;
+	}
+	for (int i = 0; i < pipex->nbcmd; i++)
+		waitpid(pipex->pid[i], NULL, 0);
+	close(pipex->pipe_fd[0]);
+}
 
 int	ft_pipe(t_pipex *pipex, char **av, char **env) // remake av ??
 {
