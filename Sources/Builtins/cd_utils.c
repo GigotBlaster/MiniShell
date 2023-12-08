@@ -89,10 +89,7 @@ void	cd_add_env_var(t_pipex *pipex, char *name, char *value)
 		i++;
 	newenv = malloc(sizeof(char *) * (i + 2));
 	if (newenv == NULL)
-	{
-		free(value);
 		exit(-1); //free
-	}
 	replace_env(pipex, newenv, new);
 }
 

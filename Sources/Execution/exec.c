@@ -6,7 +6,7 @@
 /*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 12:04:12 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/08 13:18:10 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/12/08 15:07:11 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ t_cmd *token(char *str)
     if (!cmd)
         return free_tab2(input), NULL;
     if (!token2(input, cmd)) {
-        free_tab2(input);
-        free_cmd_ln(cmd);
+        // free_tab2(input);
+        // free_cmd_ln(cmd);
         return NULL;
     }
     return (cmd);

@@ -6,7 +6,7 @@
 /*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 19:46:00 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/12/08 13:18:29 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/12/08 14:27:53 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,9 +254,9 @@ char	*str_expand(char *str, char **env)
 				{
 					i++;
 					var = get_value(str, &i, env);
-					ft_reverse(var);
 					if (var)
 					{
+						ft_reverse(var);
 						len += strlen(var);
 						strcat(dest, var);
 					}
@@ -275,9 +275,9 @@ char	*str_expand(char *str, char **env)
 			{
 				i++;
 				var = get_value(str, &i, env);
-				ft_reverse(var);
 				if (var)
 				{
+					ft_reverse(var);
 					len += strlen(var);
 					strcat(dest, var);
 				}

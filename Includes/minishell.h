@@ -6,7 +6,7 @@
 /*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:57:46 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/12/07 17:26:54 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/12/08 15:14:12 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int			list_size(t_list *begin_list);
 
 /*pipex*/
 void	ft_freeredir(t_cmd *cmd);
-void	*ft_free(void *ptr);
+void	*ft_free(void **ptr);
 void	dupclose(int fd, int std);
 int		get_pipe(t_pipex *here, t_info *data);
 int		ft_counter(char const *s, char c);

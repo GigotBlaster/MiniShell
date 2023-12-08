@@ -6,7 +6,7 @@
 /*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 14:56:28 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/08 13:17:34 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/12/08 15:10:36 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ void	prompt(t_info	*info)
 		// here_doc ---
 		shell.buf = expand(shell.buf, info->pipex_env);
 		shell.nbcmd = 0;
-		tab = &shell.buf;
 		tab = ft_split_pipe(shell.buf, &shell.nbcmd);
 		remspacetab(tab);
 		ft_pipe(&shell, tab, info->pipex_env);

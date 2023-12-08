@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 17:54:20 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/08 13:57:04 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/08 16:15:27 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,10 @@ void	dupclose(int fd, int std)
 	close(fd);
 }
 
-void	*ft_free(void *ptr)
+void	*ft_free(void **ptr)
 {
-	if (ptr)
-		free(ptr);
-	ptr = NULL;
+	free(*ptr);
+	*ptr = NULL;
 	return (NULL);
 }
 
@@ -93,8 +92,8 @@ void	ft_freeredir(t_cmd *cmd)
 {
 	int i = 0;
 	while (cmd->fichiers[i])
-		ft_free(cmd->fichiers[i++]);
-	ft_free(cmd->redirection);
+		ft_free((void **)&cmd->fichiers[i++]);
+	ft_free((void **)&cmd->redirection);
 }
 
 void	ft_errorcmd(t_info *data, t_cmd *cmd, char *str)
@@ -122,9 +121,6 @@ void	error_fd(t_info *data, t_cmd *cmd, int i)
 int	get_pipe(t_pipex *here, t_info *data)
 {
 	(void)data;
-	int	i;
-
-	i = -1;
 	if (here->prev > -1)
 		dupclose(here->prev, STDIN_FILENO);
 	if (here->pipe_fd[1] > -1)
@@ -200,7 +196,7 @@ void	file(t_info *data, t_cmd *cmd, int a) //with suz
 	free(cmd->redirection);
 }
 
-int	check_built_in_exp(t_pipex *p, char *str) //suz
+int	check_built_in_baby(t_pipex *p, char *str) //suz
 {
 	t_cmd	*cmd;
 	cmd = token(str);
@@ -219,6 +215,13 @@ int	check_built_in_exp(t_pipex *p, char *str) //suz
         ft_echo(cmd);
         return (1);
     }
+	return (0);
+}
+
+int	check_built_in_dad(t_pipex *p, char *str) //suz
+{
+	t_cmd	*cmd;
+	cmd = token(str);
 	if (ft_strncmp(cmd->arguments[0], "cd", 3) == 0)
     {
         ft_cd(p, cmd, 0);
@@ -234,7 +237,7 @@ void	child_process(t_pipex *pipex, char *arg, int i)
 
 	all = token(arg);   // create_cmd
 	file(NULL, all, i); 
-	if (check_built_in_exp(pipex, arg))
+	if (check_built_in_baby(pipex, arg))
 	{
 		printf("built in success\n");
 		exit(0);
@@ -274,27 +277,29 @@ void	process(t_pipex *pipex)
 	while (i < pipex->nbcmd)
 	{
 		pipe(pipex->pipe_fd);
-		pipex->pid[i] = fork();
-		if (pipex->pid[i] == 0)
-		{
-			close(pipex->pipe_fd[0]);
-			if (i > 0)
+		if (check_built_in_dad(pipex, pipex->cmds[i]) != 1){
+			pipex->pid[i] = fork();
+			if (pipex->pid[i] == 0)
 			{
-				dupclose(fd_in, STDIN_FILENO);
-				close(fd_in);
+				close(pipex->pipe_fd[0]);
+				if (i > 0)
+				{
+					dupclose(fd_in, STDIN_FILENO);
+					close(fd_in);
+				}
+				if (i < pipex->nbcmd - 1)
+				{
+					dupclose(pipex->pipe_fd[1], STDOUT_FILENO);
+					close(pipex->pipe_fd[1]);
+				}
+				child_process(pipex, pipex->cmds[i], i);
 			}
-			if (i < pipex->nbcmd - 1)
+			else
 			{
-				dupclose(pipex->pipe_fd[1], STDOUT_FILENO);
-				close(pipex->pipe_fd[1]);
+				parent_process(pipex);
+				close(pipex->pipe_fd[1]); 
+				fd_in = pipex->pipe_fd[0];
 			}
-			child_process(pipex, pipex->cmds[i], i);
-		}
-		else
-		{
-			parent_process(pipex);
-			close(pipex->pipe_fd[1]); 
-			fd_in = pipex->pipe_fd[0];
 		}
 		i++;
 	}
