@@ -3,14 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   Prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 14:56:28 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/30 18:36:40 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/08 13:17:34 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
+extern int	g_return_value;
 
 void	header(void)
 {
@@ -53,17 +56,51 @@ char	**ft_split_pipe(char *str, int *wc)
 	return (out);
 }
 
+void	sig_handler_command(int signum)
+{
+	if (signum == SIGINT)
+	{
+		printf("\n");
+		g_return_value = 130;
+	}
+	if (signum == SIGQUIT)
+	{
+		ft_putendl_fd("Quit (core dumped)", 2);
+		g_return_value = 131;
+	}
+}
+
+void	sig_handler_prompt(int signum)
+{
+	if (signum == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		g_return_value = 130;
+	}
+	if (signum == SIGQUIT)
+	{
+		printf("\33[2K\r");
+		rl_on_new_line();
+		rl_redisplay();
+	}
+}
 
 void	prompt(t_info	*info)
 {
 	static t_pipex	shell = {0};
-	char	cwd[SIZE_PATH];
-	char	*relative_path;
+	char ** tab;
 
+	signal(SIGINT, sig_handler_prompt);
+	signal(SIGQUIT, sig_handler_prompt);
+	signal(SIGTSTP, SIG_IGN);
+	
 	header();
 	while (1)
 	{
-		shell.buf = readline("imane> ");
+		shell.buf = readline("MiniShell> ");
 		if (shell.buf == NULL)
 			quit_all(&shell);
 		if (!*shell.buf)
@@ -72,55 +109,12 @@ void	prompt(t_info	*info)
 		shell.buf = addspaces(shell.buf);
 		if (parsing(shell.buf))
 			continue ;
-		ft_putstr("ok parsing!\n");//oust
 		// here_doc ---
-		shell.buf = expand(shell.buf, info->env);
+		shell.buf = expand(shell.buf, info->pipex_env);
 		shell.nbcmd = 0;
-		
-		char ** tab = ft_split_pipe(shell.buf, &shell.nbcmd);
-		for (int i =0; tab[i]; i++)//oust
-			printf("[%i]%s\n", i,tab[i]);//oust
-		printf("nbcmd = %i\n", shell.nbcmd);//oust
-		ft_pipe(&shell, tab, info->env);
-		// exec
-			// if nbcmd == 1
-					//token(shell.buf)// appeler CREATE_CMD pour recup la commande 
-					// if cmd == BUILTIN
-						// redirection fichiers exec de redir avec builtind
-						// retirer quotes ' et "
-						// exec builtin
-						// return ;
-			// free(t_cmd);
-			// else deux+ commandes pipex FAIT
-				// fork FAIT
-					// child FAIT
-						// createcmd LN A FAIT -
-						// redirection NAEL builtin 
-						// retirer quotes JSP char *str = noquote(char *str)
-						// builtin || execve si pas builint genre ls -
-
-		// ft_print_line(shell.buf);
+		tab = &shell.buf;
+		tab = ft_split_pipe(shell.buf, &shell.nbcmd);
+		remspacetab(tab);
+		ft_pipe(&shell, tab, info->pipex_env);
 	}
 }
-
-
-// cat | ls
-// echo | ls
-// echo 
-// ls
-
-// if nbcmd == 1
-	// appeler CREATE_CMD
-	// if cmd == BUILTIN
-		// redirection fichiers
-		// retirer quotes
-		// exec builtin
-		// return to main
-	// else
-		// free
-// fork
-	// child
-		// createcmd FAIT
-		// redirection NAEL
-		// retirer quotes JSP char *str = noquote(char *str)
-		// builtin || execve

@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/26 13:25:36 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/10/26 13:25:37 by npetitpi         ###   ########.fr       */
+/*   Created: 2023/11/09 14:36:33 by npetitpi          #+#    #+#             */
+/*   Updated: 2023/12/07 15:45:40 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftfull.h"
+#include "minishell.h"
 
-void	ft_lstadd_front(t_list **alst, t_list *new)
+extern int	g_return_value;
+
+void	ft_exit()
 {
-	new->next = *alst;
-	*alst = new;
+
 }

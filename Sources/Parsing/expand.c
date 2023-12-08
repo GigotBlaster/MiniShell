@@ -3,32 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 19:46:00 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/11/30 17:15:35 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/08 13:18:29 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// avion = strlen(avion)
-// avion$USER = strlen(avion) + strlen(USER.value);
-// 'avion$USER[reed' = strlen('avion$USER[reed')
-// 'avion$USERreed' = strlen('avion$USERreed')
-// "avion$USER" = strlen("avion") + strlen(USER.value);
-// "avion$USER/*-+-" = strlen("avion") + strlen("ibouhssi") + strlen("/*-+-");
-// "avion$?owrr" = strlen("avion")
-// $1hroqiwr_*()
-//  ibouhssi = USER
-//  ibouhssi = USER.
-//  ibouhssi = USER^
-//  ibouhssi = USER&
-//  NULL = USER1
-//  NULL = USER_
-//  NULL = USER_SDA1sas
-//  NULL = USERA
-//  avion$USERfhfj
 char	*copy_env(char *str)
 {
 	int		i;
@@ -41,7 +24,7 @@ char	*copy_env(char *str)
 	if (str[i] == '=')
 	{
 		i++;
-		new = strdup(&str[i]);
+		new = ft_strdup(&str[i]);
 	}
 	return (new);
 }
@@ -107,8 +90,6 @@ char	*get_value(char *str, int *index, char **env)
 int	get_key_len(char *str, int *index)
 {
 	int		i;
-	char	c;
-	char	*value;
 
 	i = 0;
 	if (ft_isdigit(str[*index]))
@@ -183,14 +164,65 @@ int	len_expand(char *str, char **env)
 	return (len);
 }
 
+void	ft_reverse(char *line)
+{
+	int i;
+	
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == SQ || line[i] == DQ)
+			line[i] = line[i] * -1;
+		i++;
+	}
+}
+
+void	ft_restore(char *line)
+{
+		int i;
+	
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] < 0)
+			line[i] = -line[i];
+		i++;
+	}
+}
+ 
+void	ft_reverse_all(char *line)
+{
+	int i;
+	int context;
+	
+	context = 0;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == context)
+			context = 0;
+		else if(!context && line[i] == DQ)
+			context = DQ;
+		else if (!context && line[i] == SQ)
+			context = SQ;
+		else if (context == SQ || context == DQ)
+		{
+			if (line[i] > 0)
+				line[i] *= -1;
+		}
+		i++;
+
+	}
+}
+
 char	*str_expand(char *str, char **env)
 {
 	int		len;
 	int		i;
 	char	*var;
 	char	*dest;
-
-	// char	*dest;
+	
 	i = 0;
 	len = 0;
 	dest = calloc(sizeof(char), (len_expand(str, env) + 1));
@@ -218,19 +250,16 @@ char	*str_expand(char *str, char **env)
 			dest[len++] = str[i++];
 			while (str[i] && str[i] != DQ)
 			{
-				while (str[i] == '$')
+				while (str[i] == '$' && str[i + 1])
 				{
 					i++;
 					var = get_value(str, &i, env);
+					ft_reverse(var);
 					if (var)
 					{
 						len += strlen(var);
 						strcat(dest, var);
 					}
-					// else
-					// {
-					// 	printf("in {%s}, var == NULL\n", __func__);
-					// }
 				}
 				dest[len++] = str[i++];
 			}
@@ -242,10 +271,11 @@ char	*str_expand(char *str, char **env)
 			break ;
 		else
 		{
-			while (str[i] == '$')
+			while (str[i] == '$' && str[i + 1])
 			{
 				i++;
 				var = get_value(str, &i, env);
+				ft_reverse(var);
 				if (var)
 				{
 					len += strlen(var);
@@ -258,6 +288,7 @@ char	*str_expand(char *str, char **env)
 		dest[len++] = str[i++];
 	}
 	dest[len] = '\0';
+	ft_reverse_all(dest);
 	return (dest);
 }
 
@@ -265,13 +296,5 @@ char	*expand(char *str, char **env)
 {
 	char *new; // = malloc(sizeof(char) * (len_expand(str, env)));
 	new = str_expand(str, env);
-	// printf("LEN NEW = [%zu]\n", ft_strlen(new));
-	printf("NEW = [%s]\n", new);
-	return (str);
+	return (new);
 }
-
-// int main(int ac, char **av, char **env)
-// {
-// 	char str[] = "hello";
-// 	printf("%s\n", expand(str, env));
-// }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:57:46 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/11/30 18:00:33 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/07 17:26:54 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,48 +48,30 @@
 ////// BUILTINS //////
 /*cd*/
 int			nb_args(char **args);
-char		*search_in_env(t_list *envl, char *var);
-static int	cd_home(t_list *envl);
-static int	cd_before(t_list *envl);
-int			ft_cd(t_info *cmd, t_list **envl);
+void    ft_cd(t_pipex *pipex, t_cmd *cmd, int forked);
+void	copy_new_var(char *new, char *name, char *value);
+void	cd_replace_env_var(t_pipex *pipex, char *name, char *value);
+void	cd_error(t_pipex *pipex, char *dest, int forked, int type);
+void	cd_add_env_var(t_pipex *pipex, char *name, char *value);
 
 /*echo*/
-static void	print_args(char **args, int option, int i);
-static int	echo_option(t_info *cmd);
-int			ft_echo(t_info *cmd, t_comm **envl);
+void        ft_echo(t_cmd *cmd);
 
-/*env trop de fonctions*/
-int			ft_env(t_info *cmd, t_list **envl);
-void		print_envl(t_list *envl, int declare);
-static void	print_unquote(t_env entry);
-static void	print_quote(t_env entry);
-int			authorized_char(char *s);
-int			export_all(char **vars, t_list **envl, int exported);
-int			print_sorted(t_list *envl, t_info *cmd);
-int			add_env(char *var, char *value, t_list **envl, int exported);
-static int	export_one(char *var, t_list **envl, int exported);
-void		ft_lstsort(t_list **begin_list, int (*cmp)());
+/*env*/
+char		*search_in_env(t_list *envl, char *var);
+int     ft_env(t_pipex *env, t_cmd *cmd);
 
 /*exit*/
-static int	ft_isnum(char *str);
-static void	free_exit(t_info *cmd, t_list **envl);
-int			ft_exit(t_info *cmd, t_list **envl);
-
-/*export_sort*/
-static void	*copy_entry(void *entry);
-static int	cmp_entry(void *data1, void *data2);
-int print_sorted(t_list *envl, t_info *cmd);
 
 /*export*/
-int ft_export(t_info *cmd, t_list **envl);
+bool	var_exist_n_replace(t_cmd *cmd, char *src);
 
 /*pwd*/
-void		change_stdin_stdout(t_info *cmd);
-int			ft_pdw(t_info *cmd, t_list **envl);
+void	change_stdin_stdout(t_info *cmd);
+int ft_export(t_cmd *cmd);
+int 	ft_pwd(t_cmd *cmd);
 
 /*unset*/
-int			variable_match(t_list *envl, char *var, int cut);
-void		invalid_identifier(char *str, char *func, int exported);
 
 ////// UTILS //////
 /*errors*/
@@ -98,23 +80,34 @@ int			error_msg(int error);
 void		invalid_identifier(char *str, char *func, int exported);
 
 /*free*/
-void		free_all(char *line, t_split *split);
-void		free_tree(t_tree *tree);
-void		free_entry(void *ventry);
-static void	free_cmd(t_info *cmd);
 void		free_tab(char **args);
+
+////////////////////////s
+char *noquote(char *str);
+t_cmd *token(char *str);
+t_cmd *token2(char **input, t_cmd *cmd);
+t_cmd *token3(char **input, t_cmd *cmd);
+int	check_built_in(t_cmd *cmd);
+
+void	ft_restore(char *line);
+void ft_remove_quote(char *str);
+
+void	sig_handler_command(int signum);
+void	sig_handler_prompt(int signum);
 
 /*use    trop de contions*/ 
 int			authorized_char(char *s);
-static char	*ft_strcut(char *line, char c);
 int			variable_match(t_list *envl, char *var, int cut);
 void		ft_lstsort(t_list **begin_list, int (*cmp)());
 void		close_unused_fd(t_info *cmd);
 int			list_size(t_list *begin_list);
 
 /*pipex*/
+void	ft_freeredir(t_cmd *cmd);
+void	*ft_free(void *ptr);
+void	dupclose(int fd, int std);
+int		get_pipe(t_pipex *here, t_info *data);
 int		ft_counter(char const *s, char c);
-void	ft_free(char **strs, int words_index);
 char	**ft_pipexsplit(char *s, char c);
 char	**ft_pipexsplit2(const char *s, char c, char **strs, int nb_words);
 char	*acces_command(char *cmd_name, char **paths);
@@ -127,17 +120,20 @@ char	*ft_pipexstrjoin(char *s1, char *s2);
 size_t	ft_pipexstrlen(const char *str);
 int ft_pipe(t_pipex *pipex, char **av, char **env); //char **av res split tableau
 
+
 ////// SOURCES ////
 void		header(void);
 char		*del_beg_path(const char *full_path);
 void	prompt(t_info	*info);
+
+char	*remspaces(const char *str);
+char **remspacetab(char **tab);
 
 //MAIN
 void		quit_all(t_pipex *sh);
 void		free_lex(char **lex);
 int			count_line(char **envp);
 char		**get_env(char **envp);
-void		signal_handler_prompt(int signum);
 
 
 /*    SYNTAX.C */
@@ -153,4 +149,5 @@ int	is_a_redirection(char *str);
 /* EXPAND.C */
 
 char *expand(char *str, char **env);   
+char	*get_value_from_key(char *src, char **env);
 #endif

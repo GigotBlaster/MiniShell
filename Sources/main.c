@@ -6,13 +6,13 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:54:09 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/11/30 17:25:13 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:57:11 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		return_value = 0; //A renommer + init avec maccro .h
+int	g_return_value = 0;
 
 void	free_lex(char **lex)
 {
@@ -48,17 +48,17 @@ char	**get_env(char **envp)
 	res = malloc(sizeof(char *) * (count_line(envp) + 1));
 	if (res == NULL)
 	{
-		perror("Malloc error"); //plutot perror ?
+		perror("Malloc error");
 		exit(-1);
 		// DEF dans le.h
 	}
 	while (envp[i] != NULL)
 	{
-		res[i] = ft_strdup(envp[i]); //modification ??
+		res[i] = ft_strdup(envp[i]);
 		if (res[i] == NULL)
 		{
-			free_lex(res);          //a voir plus tard (free strlen du lexer)
-			perror("Malloc error"); //plutot perror ?
+			free_lex(res);
+			perror("Malloc error");
 			exit(-1);
 			// DEF dans le.h
 		}
@@ -70,9 +70,10 @@ char	**get_env(char **envp)
 
 void	quit_all(t_pipex *sh)
 {
+	(void)sh;
 	rl_clear_history();
 	ft_putendl_fd("exit", 2);
-	exit(return_value);
+	exit(g_return_value);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -81,7 +82,7 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	
 	t_info	info;
-	info.env = get_env(envp);
+	info.pipex_env = get_env(envp);
 	prompt(&info);
 }
 

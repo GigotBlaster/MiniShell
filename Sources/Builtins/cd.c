@@ -3,111 +3,118 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:36:20 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/22 17:36:45 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/07 17:39:39 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//CD : Current Directory
-//
 #include "minishell.h"
 
-int	nb_args(char **args) // nb d'elem dans le tab de tab
-{
-	int i;
+// Exec dans parent sinon l'enfant exec le cd et il se passe rien 
 
-	i = 0;
-	while (args[i])
-		i++;
-	return (i);
+extern int g_return_value;
+
+void	update_pwd_vars(t_pipex *pipex, char *dir) 
+{
+    char *var;
+    
+    if (dir == NULL)
+        return;
+    var = get_value_from_key("OLDPWD", pipex->env);
+    if (var == NULL)
+        cd_add_env_var(pipex, "OLDPWD", dir);
+    else
+    {
+        cd_replace_env_var(pipex, "OLDPWD", dir);
+        free(var);
+    }
+    dir = NULL;
+    dir = getcwd(dir, 0);
+    if (dir == NULL)
+        return;
+    var = get_value_from_key("PWD", pipex->env);
+    if (var == NULL)
+        cd_add_env_var(pipex, "PWD", dir);
+    else
+    {
+        cd_replace_env_var(pipex, "PWD", dir);
+        free(var);
+    }
 }
 
-char	*search_in_env(t_list *envl, char *var)
-	// Cherche variable d'env dans lchaine, renvoi sa valeur ou NULL
+void	change_directory(t_pipex *pipex, char *dest, int forked, char *current_dir)
 {
-	while (envl)
-	{
-		if (ft_strcmp(((t_env *)envl->content)->var, var) == 0)
-			return (((t_env *)envl->content)->value);
-		envl = envl->next;
-	}
-	return (NULL);
+    struct stat buf;
+    
+    if (stat(dest, &buf) < 0 && errno == EACCES)
+        cd_error(pipex, dest, forked, 3);
+    else if (access(dest, F_OK) != 0)
+        cd_error(pipex, dest, forked, 1);
+    else if (S_ISDIR(buf.st_mode))
+    {
+        current_dir = getcwd(current_dir, 0);
+        if (chdir(dest) == -1)
+        {
+            if (current_dir != NULL)
+            {
+                free(current_dir);
+                cd_error(pipex, dest, forked, 3);
+                return;
+            }
+        }
+        if (forked == 1)
+            exit(0); //free !
+        update_pwd_vars(pipex, current_dir);
+        g_return_value = 0;
+        return;  
+    }
+    else
+        cd_error(pipex, dest, forked, 2);
 }
 
-static int	cd_home(t_list *envl)
-	//change le rép de travail vers le rép défini par la var d'env "HOME".
+void go_to_home_dir(t_pipex *pipex, int forked, char *current_dir)
 {
-	char *path_home;
-
-	path_home = search_in_env(envl, "HOME");
-	if (!path_home)
-	{
-		print_error("minishell: cd", NULL, 0, "HOME not set");
-		return (ERROR);
-	}
-	errno = 0;
-	if (chdir(path_home))
-	{
-		print_error("cd", path_home, errno, NULL);
-		return (ERROR);
-	}
-	return (SUCCESS);
-}
-
-static int	cd_before(t_list *envl)
-	//change le rép de travail vers le rép précédent
-{
-	char *old_path;
-
-	old_path = search_in_env(envl, "OLDPWD");
-	if (!old_path)
-	{
-		print_error("minishell: cd", NULL, 0, "OLDPWD not set");
-		return (ERROR);
-	}
-	errno = 0;
-	ft_putstr_fd(old_path, STDERR);
-	ft_putstr_fd("\n", STDERR);
-	if (chdir(old_path))
-	{
-		print_error("cd", old_path, errno, NULL);
-		return (ERROR);
-	}
-	return (SUCCESS);
-}
-
-int	ft_cd(t_info *cmd, t_list **envl) // Implementation de cd
-{
-	int err;
-	char *path;
-
-	// Vérifie nb args
-	if (nb_args(cmd->argv + cmd->offset) > 2)
-	{
-		print_error("minishell: cd", NULL, 0, "too many arguments");
-		return (MISUSE);
-	}
-	// Check si y'a un chemin en argument
-	if (cmd->args[cmd->offset + 1])
-	{
-		path = cmd->argv[cmd->offset + 1];
-		// Si le chemin est "-", retourne au répertoire précédent
-		errno = 0;
-		if (ft_strcmp("-", path) == 0)
-			return (cd_before(*envl));
-		// Change le répertoire de travail vers le chemin spécifié
-		err = chdir(path);
-		if (err)
+    char *home;
+    
+    home = get_value_from_key("HOME", pipex->env);
+    if (home == NULL)
+    {
+        ft_putendl_fd("minishell: cd: HOME not set", 2);
+		if (forked == 1)
 		{
-			// Si échec du changement de répertoire, erreur
-			print_error("cd", cmd->argv[cmd->offset + 1], errno, NULL);
-			return (ERROR);
+			//free !
+			exit (1);
 		}
-		//Si le changement de rép réussit
-		return (SUCCESS);
-	}
-	// Si aucun chemin n'est spécifié, retourne au rép HOME
-	return (cd_home(*envl));
+		g_return_value = 1;
+		return ;
+    }
+    change_directory(pipex, home, forked, current_dir);
+    free(home);
+}
+
+void    ft_cd(t_pipex *pipex, t_cmd *cmd, int forked)
+{
+    int arg_nb;
+    char *current_dir;
+    
+    current_dir = NULL;
+    arg_nb = count_line(cmd->arguments);
+    printf("------------------>%i\n", arg_nb);
+    if (arg_nb > 2)
+    {
+        ft_putendl_fd("minishell: cd: too many arguments", 2);
+        if (forked == 1)
+        {
+            //free !
+            exit(1);
+        }
+        g_return_value = 1;
+        return;
+    }
+    else if (arg_nb == 1)
+        go_to_home_dir(pipex, forked, current_dir);
+    else
+        change_directory(pipex, cmd->arguments[1], forked, current_dir);
 }

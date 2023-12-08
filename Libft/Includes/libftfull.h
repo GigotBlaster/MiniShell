@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 14:08:04 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/30 17:58:25 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/05 19:04:35 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,12 @@ void		ft_putchar(char c);
 void		ft_putstr(char *s);
 void		ft_putendl(char *s);
 void		ft_putnbr(int n);
-char		**ft_splitchar(const char *s, char c);
-char		**ft_split(const char *s, const char *set);
+char		**ft_split(const char *str, char c);
 char		*ft_strjoin(const char *s1, const char *s2);
 char		*ft_strtrim(const char *s1, const char *set);
 char		*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char		*ft_substr(const char *s, unsigned int start, size_t len);
 t_list		*ft_lstnew(void *content);
-void		ft_lstadd_back(t_list **alst, t_list *new);
-void		ft_lstadd_front(t_list **alst, t_list *new);
 void		ft_lstdelone(t_list *lst, void (*del)(void *));
 int			ft_lstsize(t_list *lst);
 t_list		*ft_lstlast(t_list *lst);
@@ -104,6 +101,7 @@ int			is_all_coherent(const char *str);
 const char	*print_str_classic(const char *str, int *nb_char, int fd);
 void		print_param(t_print p, va_list args, int *nb_char);
 int			ft_printf(const char *str, ...);
+int			ft_printf_fd(int fd, const char *str, ...);
 void		fill_str_s(char **to_print, char *str, t_print param, int size);
 void		fill_int_right_p(char **to_print, char *nb, t_print par, int size);
 void		fill_int_right(char **to_print, char *nb, int size);

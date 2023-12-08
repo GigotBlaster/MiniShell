@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:12:56 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/30 17:23:45 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/07 16:18:19 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
-# include "libftstructures.h"
+//# include "libftstructures.h"
 # include <stdarg.h>
 
 //MACRO
@@ -21,64 +21,36 @@
 # define STDERR 2
 # define MAX_TOKEN_LENGTH 100
 
-typedef struct s_comm
+typedef struct s_redir
 {
-	char			*file;
-	char			**argv;
-}					t_comm;
+	int					type;
+	char 				*inside;
+	struct s_redir		*next;
+}						t_redir;
 
-typedef struct s_shell
+typedef struct s_pipex 
 {
-}					t_shell;
+	char	*buf;
+	char	*stop;
+	int 	pipe_fd[2];
+	char 	**env;
+	int 	prev;
+	int 	nbcmd;
+	char 	**cmds;
+	int 	*pid;
+}	t_pipex;
 
-typedef struct s_split
-{
-	char			*str;
-}					t_split;
 
 typedef struct s_info
 {
 	char			*line;
-	void			*root;
 	int				output;
 	int				input;
-	int				*spaces_tmp;
-	int				number;
-	char			**argv;
-	int				offset;
-	int				is_subprocess;
-	char			**args_tmp;
-	char			*seps_tmp;
-	int				*spaces;
-	char			**args;
-	char			*seps;
-	char			**env;
-	t_split			*split;
+	int				fd[2];
+	char 			*file;
+	t_pipex			*here;
+	char			**pipex_env;
 }					t_info;
-
-typedef struct s_tree
-{
-	t_info			*info;
-	struct s_tree	*left;
-	struct s_tree	*right;
-}					t_tree;
-
-typedef struct s_env
-{
-	char			*var;
-	char			*value;
-	int				exported;
-}					t_env;
-
-typedef struct s_pipex {
-	char			*buf;
-	int pipe_fd[2];
-	char **env;
-	int prev;
-	int nbcmd;
-	char **cmds;
-	int  *pid;
-}	t_pipex;
 
 enum
 {
@@ -91,9 +63,12 @@ enum
 
 typedef struct s_cmd
 {
-    int     *redirections;
+    int     *redirection;
     char    **fichiers;
+	char 	*flag;
     char    **arguments;
+	t_redir	*redir;
     char    *command;
+	char 	**environnement;
 }           t_cmd;
 #endif

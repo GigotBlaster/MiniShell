@@ -3,15 +3,12 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+         #
+#    By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/10/13 11:57:52 by ibouhssi          #+#    #+#              #
-#    Updated: 2023/11/30 19:11:51 by npetitpi         ###   ########.fr        #
+#    Created: 2023/12/06 23:12:33 by ibouhssi          #+#    #+#              #
+#    Updated: 2023/12/07 16:14:10 by ibouhssi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
-NAME          = ./minishell
-
 
 NAME			=	minishell
 
@@ -26,10 +23,10 @@ CC				= cc
 RM      	    = rm -rf
 
 SRCS_NAMES		= Builtins/unset.c \
-				  Builtins/export_sort.c \
-				  Builtins/exit.c.c \
+				  Builtins/exit.c \
 				  Builtins/cd.c \
 				  Builtins/env.c \
+				  Builtins/cd_utils.c\
 				  Builtins/echo.c \
 				  Builtins/export.c \
 				  Builtins/pwd.c \
@@ -55,7 +52,7 @@ SRCS			=	$(addprefix $(DIR_SRCS)/,$(SRCS_NAMES))
 
 OBJS			=	$(addprefix $(DIR_OBJS)/,$(OBJS_NAMES))
 
-INC				=	-IIncludes -ILibft/Includes
+INC				=	-IIncludes -ILibft/Include
 
 LIB				=	-lreadline -lm -LLibft -lft
 
@@ -68,7 +65,7 @@ $(NAME): $(DIR_OBJS) $(OBJS)
 	@printf "\033[32mMiniShell compiled\033[0m$(SPACES)"
 
 $(OBJS) : $(DIR_OBJS)/%.o : $(DIR_SRCS)/%.c
-	@printf "[..] $(NAME) compiling... $*.c\r" && $(CC) -g3 $(CDFLAGS) $(INC) -c $< -o $@ && printf "$(_CLEAR)"
+	@printf "[..] $(NAME) compiling... $*.c\r" && $(CC) -g3 $(CFLAGS) $(INC) -c $< -o $@ && printf "$(_CLEAR)"
 
 $(DIR_OBJS):
 	@mkdir -p $(DIR_OBJS) > /dev/null
@@ -89,9 +86,6 @@ fclean: clean
 leaks: ${NAME}
 	clear && valgrind --suppressions=ignore.txt -s --track-fds=yes --leak-check=full --show-leak-kinds=all ./minishell
 
-leask: $(NAME)
-	clear && valgrind --suppressions=ignore.txt -s --track-fds=yes --leak-check=full --show-leak-kinds=all ./minishell
-
 
 env: $(NAME)
 	env -i ./minishell
@@ -104,4 +98,3 @@ re:	fclean all
 -include $(DEPS)
 
 .PHONY:	all clean fclean re bonus leaks stop
-# .SILENT:

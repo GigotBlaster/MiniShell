@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 17:11:22 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/11/28 19:49:26 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/12/05 17:24:37 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,6 @@ int	quote_error(char *str)
 	}
 	return (0);
 }
-
-/* char *no_spaces(char *str)
-{
-	char *no_s;
-	int i = 0;
-
-	
-	while (str[i])
-	{
-		
-	}
-} */
 
 int 	get_tab_size(char **tab)
 {
@@ -93,7 +81,7 @@ int 	check_last(char *str)
 	}
 	return(0);
 }
-
+ 
 int	syntax_error(char **tab)
 {
 	int	i;
@@ -120,7 +108,11 @@ int	parsing(char *input)
 {
 	if (quote_error(input))
 		return (1);
-	if (syntax_error(ft_split(input, " \t")))
+	// if (syntax_error(ft_split(input, " \t"))) //? ' ' puis split '\t'
+	// 	return (1);
+	if (syntax_error(ft_split(input, ' '))) //? ' ' puis split '\t'
+		return (1);
+	if (syntax_error(ft_split(input, '\t'))) //? ' ' puis split '\t'
 		return (1);
 	return (0);
 }

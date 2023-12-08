@@ -6,80 +6,54 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 13:31:02 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/10/26 13:52:36 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/02 00:38:54 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftfull.h"
+// #include "libftfull.h"
+#include <stdio.h>
 #include <stdlib.h>
 
-static int	nb_wrds(const char *s, const char *set, int *i, int *j)
+char *ft_strncpysplit(char *s1, char *s2, int n)
 {
-	int	k;
-	int	n;
+	int i = -1;
 
-	k = 0;
-	n = 0;
-	*i = -1;
-	*j = 0;
-	while (s[k])
-	{
-		while (s[k] && ft_issep(s[k], set))
-			k++;
-		if (s[k] && !ft_issep(s[k], set))
-			n++;
-		while (s[k] && !ft_issep(s[k], set))
-			k++;
-	}
-	return (n);
+	while (++i < n && s2[i])
+		s1[i] = s2[i];
+	s1[i] = '\0';
+	return (s1);
 }
 
-static int	wrd_len(const char *s, const char *set)
+char	**ft_split(char *str, char c)
 {
-	int	i;
-
+	int i = 0;
+	int j = 0;
+	int k = 0;
+	int wc = 0;
+	while (str[i])
+	{
+		while (str[i] && (str[i] == c))
+			i++;
+		if (str[i])
+			wc++;
+		while (str[i] && (str[i] != c))
+			i++;
+	}
+	char **out = (char **)malloc(sizeof(char *) * (wc + 1));
 	i = 0;
-	while (s[i] && !ft_issep(s[i], set))
-		i++;
-	return (i);
-}
-
-static char	**ft_free(char **strs, int i)
-{
-	int		j;
-
-	j = -1;
-	while (++j < i)
-		free(strs[j]);
-	free(strs);
-	return (NULL);
-}
-
-char	**ft_split(const char *s, const char *set)
-{
-	char	**strs;
-	int		wrds;
-	int		i;
-	int		j;
-	int		len;
-
-	if (!s || !set)
-		return (NULL);
-	wrds = nb_wrds(s, set, &i, &j);
-	strs = malloc(sizeof(char *) * (wrds + 1));
-	if (!strs)
-		return (NULL);
-	strs[wrds] = 0;
-	while (++i < wrds)
+	while (str[i])
 	{
-		while (s[j] && ft_issep(s[j], set))
-			j++;
-		len = wrd_len(s + j, set);
-		strs[i] = malloc(sizeof(char *) * (len + 1));
-		if (!(strs[i]))
-			return (ft_free(strs, i));
-		(void)ft_strlcpy(strs[i], s + j, len + 1);
-		j += len;
+		while (str[i] && (str[i] == c))
+			i++;
+		j = i;
+		while (str[i] && (str[i] != c))
+			i++;
+		if (i > j)
+		{
+			out[k] = (char *)malloc(sizeof(char) * ((i - j) + 1));
+			ft_strncpysplit(out[k++], &str[j], i - j);
+		}
 	}
-	return (strs);
+	out[k] = NULL;
+	return (out);
 }

@@ -6,14 +6,13 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:30:06 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/15 15:46:02 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/03 15:40:40 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//PDW : Print Working Directory
+//PWD : Print Working Directory
 //
 #include "minishell.h"
-
  //gestion in out
 void	change_stdin_stdout(t_info *cmd)
 {
@@ -29,27 +28,28 @@ void	change_stdin_stdout(t_info *cmd)
 	}
 }
 
-int ft_pdw(t_info *cmd, t_list **envl)
+int	ft_pwd(t_cmd *cmd)
 {
-    char cwd[SIZE_PATH];
-    int pid;
+    char *cwd;
+    int fd;
+	(void)cmd;
 
-    (void)envl; //no use
-
-    getcwd(cwd, SIZE_MAX);  // Récupère le rép actuel
-    pid = fork();  // Crée un child process
-
-    if (pid == -1)
-        return (error_msg(FORK_FAIL));  //erreur
-    else if (pid == 0)
+    fd = 1;
+    cwd = getcwd(NULL, 0);  // Récupère le rép actuel
+    printf("MON PWD :)\n");
+	if(cwd == NULL)
     {
-        // Code exécuté par child process
-        change_stdin_stdout(cmd);  // Change in out en fonction de cmd
-        ft_putstr(cwd);  // Affiche le répertoire de travail actuel
-        ft_putstr("\n");
-        exit(SUCCESS);  // Termine chil process success
+        perror("pwd");
+        return(12);
     }
-
+    if(write(fd, cwd, ft_strlen(cwd)) == -1)
+    {
+        write(2, "pwd: write error: No space left on device\n", 43);
+        free(cwd);
+        return(1);
+    }
+    write(fd, "\n", 1);
+    free(cwd);
     // Code exécuté par le processus parent
     return (SUCCESS);
 }

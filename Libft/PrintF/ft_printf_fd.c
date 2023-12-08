@@ -6,11 +6,11 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 13:45:42 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/10/26 13:45:43 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/02 16:17:39 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftfull.h"
+#include "../Includes/libftfull.h"
 
 int	ft_printf_fd(int fd, const char *str, ...)
 {

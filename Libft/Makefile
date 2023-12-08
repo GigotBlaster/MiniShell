@@ -19,13 +19,10 @@ SRCS		= Convert/ft_atoi.c \
 			  Convert/ft_utoxx.c \
 			  Gnl/get_next_line.c \
 			  Gnl/get_next_line_utils.c \
-			  List/ft_lstadd_back.c \
-			  List/ft_lstadd_front.c \
 			  List/ft_lstclear.c \
 			  List/ft_lstdelone.c \
 			  List/ft_lstiter.c \
 			  List/ft_lstlast.c \
-			  List/ft_lstmap.c \
 			  List/ft_lstnew.c \
 			  List/ft_lstsize.c \
 			  Memory/ft_bzero.c \
@@ -36,14 +33,13 @@ SRCS		= Convert/ft_atoi.c \
 			  Memory/ft_memcpy.c \
 			  Memory/ft_memmove.c \
 			  Memory/ft_memset.c \
-			  String/ft_split.c \
-			  String/ft_splitchar.c \
 			  String/ft_strchr.c \
 			  String/ft_strdup.c \
 			  String/ft_strncpy.c \
 			  String/ft_strjoin.c \
 			  String/ft_strlcat.c \
 			  String/ft_strlcpy.c \
+			  String/ft_split.c \
 			  String/ft_strlen.c \
 			  String/ft_strmapi.c \
 			  String/ft_strcmp.c \
