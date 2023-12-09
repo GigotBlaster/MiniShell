@@ -6,13 +6,13 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:54:09 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/12/06 17:57:11 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/09 16:27:03 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_return_value = 0;
+int	g_return_value;
 
 void	free_lex(char **lex)
 {
@@ -34,7 +34,7 @@ int	count_line(char **envp)
 	int	i;
 
 	i = 0;
-	while (envp[i] != NULL)
+	while (envp && envp[i] != NULL)
 		i++;
 	return (i);
 }
@@ -50,7 +50,6 @@ char	**get_env(char **envp)
 	{
 		perror("Malloc error");
 		exit(-1);
-		// DEF dans le.h
 	}
 	while (envp[i] != NULL)
 	{
@@ -60,7 +59,6 @@ char	**get_env(char **envp)
 			free_lex(res);
 			perror("Malloc error");
 			exit(-1);
-			// DEF dans le.h
 		}
 		i++;
 	}
@@ -78,12 +76,10 @@ void	quit_all(t_pipex *sh)
 
 int	main(int ac, char **av, char **envp)
 {
+	t_info	info;
+
 	(void)ac;
 	(void)av;
-	
-	t_info	info;
 	info.pipex_env = get_env(envp);
 	prompt(&info);
 }
-
-

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+         #
+#    By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/06 23:12:33 by ibouhssi          #+#    #+#              #
-#    Updated: 2023/12/07 16:14:10 by ibouhssi         ###   ########.fr        #
+#    Updated: 2023/12/09 13:29:03 by npetitpi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,12 +31,20 @@ SRCS_NAMES		= Builtins/unset.c \
 				  Builtins/export.c \
 				  Builtins/pwd.c \
 				  Parsing/spaces.c \
+				  Parsing/check_builtin.c \
 				  Parsing/expand.c \
+				  Parsing/len_expand.c \
+				  Parsing/redirection.c \
+				  Parsing/reverse.c \
+				  Parsing/str_expand.c \
 				  Parsing/syntax.c \
 				  main.c \
-				  Prompt.c \
-				  Execution/exec.c \
-				  Utils/u2pipex.c \
+				  Execution/Prompt.c \
+				  Execution/create_command.c \
+				  Execution/file.c \
+				  Execution/process.c \
+				  Execution/heredoc.c \
+				  Utils/upipex2.c\
 				  Utils/upipex.c \
 				  Utils/errors.c \
 				  Utils/use.c \

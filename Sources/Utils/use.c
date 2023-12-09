@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 13:29:10 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/05 18:43:39 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/09 12:58:53 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ char	*noquote(char *str)
 {
 	char	*result;
 	char	*write;
+	char	c;
 
 	result = str;
 	write = str;
@@ -23,7 +24,7 @@ char	*noquote(char *str)
 	{
 		if (*str == '\'' || *str == '\"')
 		{
-			char c = *str;
+			c = *str;
 			str++;
 			while (*str != c)
 				*write++ = *str++;
@@ -35,11 +36,13 @@ char	*noquote(char *str)
 	return (result);
 }
 
-void ft_remove_quote(char *str)
+void	ft_remove_quote(char *str)
 {
-	int i = 0;
-	int j = 0;
+	int	i;
+	int	j;
 
+	i = 0;
+	j = 0;
 	while (str[i])
 	{
 		if (str[i] != '"' && str[i] != '\'')
@@ -50,4 +53,10 @@ void ft_remove_quote(char *str)
 		i++;
 	}
 	str[j] = '\0';
+}
+
+void	dupclose(int fd, int std)
+{
+	dup2(fd, std);
+	close(fd);
 }

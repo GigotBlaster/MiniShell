@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:57:46 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/12/08 15:14:12 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/12/09 16:32:21 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,109 +45,151 @@
 # define SQ '\''
 # define DQ '\"'
 
+extern int	g_return_value;
+
+//////////////////////
 ////// BUILTINS //////
+//////////////////////
+
 /*cd*/
-int			nb_args(char **args);
-void    ft_cd(t_pipex *pipex, t_cmd *cmd, int forked);
-void	copy_new_var(char *new, char *name, char *value);
+void	ft_cd(t_pipex *pipex, t_cmd *cmd, int forked);
 void	cd_replace_env_var(t_pipex *pipex, char *name, char *value);
 void	cd_error(t_pipex *pipex, char *dest, int forked, int type);
 void	cd_add_env_var(t_pipex *pipex, char *name, char *value);
+void	copy_new_var(char *new, char *name, char *value);
 
 /*echo*/
-void        ft_echo(t_cmd *cmd);
+void	ft_echo(t_cmd *cmd);
 
 /*env*/
-char		*search_in_env(t_list *envl, char *var);
-int     ft_env(t_pipex *env, t_cmd *cmd);
+int		ft_env(t_pipex *env, t_cmd *cmd);
 
 /*exit*/
+int		ft_exit(t_cmd *cmd, int nbcmd);
 
 /*export*/
-bool	var_exist_n_replace(t_cmd *cmd, char *src);
+bool	var_exist_n_replace(t_pipex *cmd, char *src);
 
 /*pwd*/
 void	change_stdin_stdout(t_info *cmd);
-int ft_export(t_cmd *cmd);
-int 	ft_pwd(t_cmd *cmd);
+int		ft_pwd(t_cmd *cmd);
 
 /*unset*/
+int		ft_unset(t_pipex *pipex, t_cmd *cmd);
 
+/*export*/
+int		ft_export(t_pipex *p, t_cmd *cmd);
+
+//////////////////////
+////// EXECUTION//////
+//////////////////////
+
+/*create_command*/
+t_cmd	*token(char *str);
+t_cmd	*token2(char **input, t_cmd *cmd);
+t_cmd	*token3(char **input, t_cmd *cmd);
+
+/*file*/
+void	file(t_info *data, t_cmd *cmd, int a);
+
+/*heredoc*/
+int		ft_heredoc(int fd, char *charset);
+
+/*process*/
+void	child_process(t_pipex *pipex, char *arg, int i);
+void	parent_process(t_pipex *pipex);
+void	process(t_pipex *pipex);
+
+/*prompt*/
+void	header(void);
+void	prompt(t_info	*info);
+
+///////////////////
+//////PARSING//////
+///////////////////
+
+/*check_builtin*/
+int		check_built_in_baby(t_pipex *p, char *str);
+int		check_built_in_dad(t_pipex *p, char *str);
+
+/*expand*/
+char	*get_value(char *str, int *index, char **env);
+char	*get_value_from_key(char *src, char **env);
+char	*expand(char *str, char **env);
+
+/*len_expand*/
+int		len_expand(char *str, char **env);
+
+/*redirection*/
+int		is_a_redirection(char *str);
+
+/*reverse*/
+void	ft_reverse(char *line);
+void	ft_reverse_all(char *line);
+void	ft_restore(char *line);
+
+/*spaces*/
+char	*addspaces(char *input);
+char	*remspaces(const char *str);
+char	**remspacetab(char **tab);
+
+/*str_expand*/
+char	*str_expand(char *str, char **env);
+
+/*syntax*/
+int		parsing(char *input);
+
+///////////////////
 ////// UTILS //////
-/*errors*/
-void		print_error(char *exe, char *file, int err, char *error);
-int			error_msg(int error);
-void		invalid_identifier(char *str, char *func, int exported);
+///////////////////
+void	print_env(char **e); // ??
+
+/*error*/
+void	error_fd(t_info *data, t_cmd *cmd, int i);
 
 /*free*/
-void		free_tab(char **args);
+void	free_tab(char **args);
+void	free_tab2(char **tab);
+void	free_cmd_ln(t_cmd *cmd);
+void	*ft_free(void **ptr);
+void	ft_freeredir(t_cmd *cmd);
 
-////////////////////////s
-char *noquote(char *str);
-t_cmd *token(char *str);
-t_cmd *token2(char **input, t_cmd *cmd);
-t_cmd *token3(char **input, t_cmd *cmd);
-int	check_built_in(t_cmd *cmd);
+char	*noquote(char *str);
+int		check_built_in(t_cmd *cmd);
 
-void	ft_restore(char *line);
-void ft_remove_quote(char *str);
+void	ft_remove_quote(char *str);
 
 void	sig_handler_command(int signum);
 void	sig_handler_prompt(int signum);
 
-/*use    trop de contions*/ 
-int			authorized_char(char *s);
-int			variable_match(t_list *envl, char *var, int cut);
-void		ft_lstsort(t_list **begin_list, int (*cmp)());
-void		close_unused_fd(t_info *cmd);
-int			list_size(t_list *begin_list);
+/*use    trop de contions*/
+char	*noquote(char *str);
+void	ft_remove_quote(char *str);
+void	dupclose(int fd, int std);
 
 /*pipex*/
-void	ft_freeredir(t_cmd *cmd);
-void	*ft_free(void **ptr);
-void	dupclose(int fd, int std);
-int		get_pipe(t_pipex *here, t_info *data);
-int		ft_counter(char const *s, char c);
-char	**ft_pipexsplit(char *s, char c);
-char	**ft_pipexsplit2(const char *s, char c, char **strs, int nb_words);
-char	*acces_command(char *cmd_name, char **paths);
 char	*find_path(char *cmd_name, char **env);
+char	*acces_command(char *cmd_name, char **paths);
+int		get_pipe(t_pipex *here, t_info *data);
+int		ft_pipe(t_pipex *pipex, char **av, char **env, bool f);
+
+/*u_pipex*/
+int		ft_counter(char const *s, char c);
+size_t	ft_pipexstrlcpy(char *dst, const char *src, size_t size);
+size_t	ft_pipexstrlen(const char *str);
 void	ft_pipexfree(char **strs, int words_index);
 void	ft_pipexfrees(char **paths);
-int		ft_pipexstrncmp(char *str1, char *str2, size_t n);
-size_t	ft_pipexstrlcpy(char *dst, const char *src, size_t size);
+
+/*u_pipex2*/
 char	*ft_pipexstrjoin(char *s1, char *s2);
-size_t	ft_pipexstrlen(const char *str);
-int ft_pipe(t_pipex *pipex, char **av, char **env); //char **av res split tableau
-
-
-////// SOURCES ////
-void		header(void);
-char		*del_beg_path(const char *full_path);
-void	prompt(t_info	*info);
-
-char	*remspaces(const char *str);
-char **remspacetab(char **tab);
+int		ft_pipexstrncmp(char *str1, char *str2, size_t n);
+char	**ft_pipexsplit(char *s, char c);
+char	**ft_pipexsplit2(const char *s, char c, char **strs, int nb_words);
 
 //MAIN
-void		quit_all(t_pipex *sh);
-void		free_lex(char **lex);
-int			count_line(char **envp);
-char		**get_env(char **envp);
+void	quit_all(t_pipex *sh);
+void	free_lex(char **lex);
+int		count_line(char **envp);
+char	**get_env(char **envp);
 
-
-/*    SYNTAX.C */
-int	parsing(char *input);
-
-/* SPACES.C */
-char	*addspaces(char *input);
-
-/* CREATE_CMD.C */
-
-int	is_a_redirection(char *str);
-
-/* EXPAND.C */
-
-char *expand(char *str, char **env);   
-char	*get_value_from_key(char *src, char **env);
 #endif

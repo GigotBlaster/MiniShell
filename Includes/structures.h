@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:12:56 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/07 16:18:19 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/12/09 18:03:14 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
-//# include "libftstructures.h"
 # include <stdarg.h>
 
 //MACRO
@@ -23,23 +22,23 @@
 
 typedef struct s_redir
 {
-	int					type;
-	char 				*inside;
-	struct s_redir		*next;
-}						t_redir;
+	int				type;
+	char			*inside;
+	struct s_redir	*next;
+}				t_redir;
 
-typedef struct s_pipex 
+typedef struct s_pipex
 {
 	char	*buf;
 	char	*stop;
-	int 	pipe_fd[2];
-	char 	**env;
-	int 	prev;
-	int 	nbcmd;
-	char 	**cmds;
-	int 	*pid;
-}	t_pipex;
-
+	int		pipe_fd[2];
+	char	**env;
+	int		prev;
+	int		nbcmd;
+	char	**cmds;
+	int		*dad;
+	int		*pid;
+}				t_pipex;
 
 typedef struct s_info
 {
@@ -47,10 +46,10 @@ typedef struct s_info
 	int				output;
 	int				input;
 	int				fd[2];
-	char 			*file;
+	char			*file;
 	t_pipex			*here;
 	char			**pipex_env;
-}					t_info;
+}				t_info;
 
 enum
 {
@@ -63,12 +62,12 @@ enum
 
 typedef struct s_cmd
 {
-    int     *redirection;
-    char    **fichiers;
-	char 	*flag;
-    char    **arguments;
+	int		*redirection;
+	char	**fichiers;
+	char	*flag;
+	char	**arguments;
 	t_redir	*redir;
-    char    *command;
-	char 	**environnement;
-}           t_cmd;
+	char	*command;
+	char	**environnement;
+}				t_cmd;
 #endif

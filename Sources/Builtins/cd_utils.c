@@ -1,6 +1,16 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd_utils.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/08 20:13:12 by npetitpi          #+#    #+#             */
+/*   Updated: 2023/12/09 16:16:21 by npetitpi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-extern int	g_return_value;
+#include "minishell.h"
 
 void	copy_new_var(char *new, char *name, char *value)
 {
@@ -41,7 +51,7 @@ void	cd_replace_env_var(t_pipex *pipex, char *name, char *value)
 	{
 		free(value);
 		// ft_error(pipex, 1);
-        exit(-1); // free!
+		exit(-1); // free!
 	}
 	free(pipex->env[i]);
 	copy_new_var(new, name, value);
@@ -61,7 +71,7 @@ void	replace_env(t_pipex *pipex, char **newenv, char *new)
 			// free(new);
 			// free_lex(newenv);
 			// ft_error(sh, 1);
-            exit(-1); //free
+			exit(-1); //free
 		}
 		i++;
 	}
@@ -95,7 +105,7 @@ void	cd_add_env_var(t_pipex *pipex, char *name, char *value)
 
 void	cd_error(t_pipex *pipex, char *dest, int forked, int type)
 {
-    (void)pipex;
+	(void)pipex;
 	if (type == 1)
 	{
 		ft_putstr_fd("msh: cd : ", 2);

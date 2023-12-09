@@ -6,23 +6,11 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 13:32:51 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/30 15:35:58 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/08 19:55:54 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftfull.h"
-
-// int	ft_strncmp(const char *s1, const char *s2, size_t n)
-// {
-// 	size_t	i;
-
-// 	i = 0;
-// 	while ((s1[i] || s2[i]) && (i < n))
-// 		i++;
-// 		if (s1[i] != s2[i])
-// 			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-// 	return (0);
-// }
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
@@ -32,6 +20,8 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 
 	str1 = (unsigned char *)s1;
 	str2 = (unsigned char *)s2;
+	if (!str1 || !str2)
+		return (-1);
 	i = 0;
 	if (n == 0)
 		return (0);

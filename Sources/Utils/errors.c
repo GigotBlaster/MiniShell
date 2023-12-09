@@ -6,52 +6,30 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:04:36 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/27 15:03:00 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/09 13:38:15 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_error(char *exe, char *file, int err, char *error)
+void	ft_errorcmd(t_info *data, t_cmd *cmd, char *str)
 {
-	if (!error)
-		ft_putstr_fd("minishell: ", STDERR);
-	if (file)
-	{
-		ft_putstr_fd(file, STDERR);
-		ft_putstr_fd(": ", STDERR);
-	}
-	if (exe)
-	{
-		ft_putstr_fd(exe, STDERR);
-		ft_putstr_fd(": ", STDERR);
-	}
-	if (error)
-		ft_putstr_fd(error, STDERR);
-	else
-		ft_putstr_fd(strerror(err), STDERR);
-	ft_putstr_fd("\n", STDERR);
+	(void) data;
+	(void) str;
+	ft_free((void **)&cmd->flag);
+	ft_free((void **)&cmd->command);
+	ft_freeredir(cmd);
 }
 
-int		error_msg(int error)
+void	error_fd(t_info *data, t_cmd *cmd, int i)
 {
-	ft_putstr_fd("minishell: ", STDERR);
-	if (error == ALLOCATION_FAIL)
-		ft_putstr_fd("allocation failed\n", STDERR);
-	else if (error == FORK_FAIL)
-		ft_putstr_fd("fork failed\n", STDERR);
-	return (ERROR);
-}
-
-void	invalid_identifier(char *str, char *func, int exported)
-{
-	ft_putstr_fd("minishell: ", STDERR);
-	if (func && exported)
-	{
-		ft_putstr_fd(func, STDERR);
-		ft_putstr_fd(": ", STDERR);
-	}
-	write(STDERR, "`", 1);
-	ft_putstr_fd(str, STDERR);
-	ft_putstr_fd("': not a valid identifier\n", STDERR);
+	if (errno == 13 && cmd->redirection[i] != 4)
+		fprintf(stderr, "bash: %s: Permission denied\n", cmd->fichiers[i]);
+	else if (cmd->redirection[i] != 4)
+		fprintf(stderr, "bash: %s: No such file or directory\n",
+			cmd->fichiers[i]);
+	ft_errorcmd(data, cmd, "");
+	close(data->fd[1]);
+	close(data->fd[0]);
+	exit(1);
 }

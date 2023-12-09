@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   Prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 14:56:28 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/08 15:10:36 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/12/09 16:16:39 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
-extern int	g_return_value;
 
 void	header(void)
 {
@@ -24,11 +21,16 @@ void	header(void)
 	ft_putstr(" |_|  |_|_|_| |_|_|___/_| |_|\\___|_|_|\033[0m\n\n");
 }
 
-char	**ft_split_pipe(char *str, int *wc)
+char	**ft_split_pipe(char *str, int *wc) // remplacer par split a l'appel ??
 {
-	int i = 0;
-	int j = 0;
-	int k = 0;
+	int		i;
+	int		j;
+	int		k;
+	char	**out;
+
+	i = 0;
+	j = 0;
+	k = 0;
 	while (str[i])
 	{
 		while (str[i] && (str[i] == '|'))
@@ -38,7 +40,7 @@ char	**ft_split_pipe(char *str, int *wc)
 		while (str[i] && (str[i] != '|'))
 			i++;
 	}
-	char **out = (char **)ft_calloc(sizeof(char *), ((*wc) + 1));
+	out = (char **)ft_calloc(sizeof(char *), ((*wc) + 1));
 	i = 0;
 	while (str[i])
 	{
@@ -91,13 +93,15 @@ void	sig_handler_prompt(int signum)
 void	prompt(t_info	*info)
 {
 	static t_pipex	shell = {0};
-	char ** tab;
+	char			**tab;	
+	bool			first_time;
 
+	first_time = true;
 	signal(SIGINT, sig_handler_prompt);
 	signal(SIGQUIT, sig_handler_prompt);
 	signal(SIGTSTP, SIG_IGN);
-	
 	header();
+	shell.env = info->pipex_env;
 	while (1)
 	{
 		shell.buf = readline("MiniShell> ");
@@ -110,10 +114,13 @@ void	prompt(t_info	*info)
 		if (parsing(shell.buf))
 			continue ;
 		// here_doc ---
-		shell.buf = expand(shell.buf, info->pipex_env);
+		shell.buf = expand(shell.buf, shell.env);
 		shell.nbcmd = 0;
 		tab = ft_split_pipe(shell.buf, &shell.nbcmd);
 		remspacetab(tab);
-		ft_pipe(&shell, tab, info->pipex_env);
+		ft_pipe(&shell, tab, shell.env, first_time);
+		//maybe probleme to free
+		// info->pipex_env = shell.env;
+		first_time = false;
 	}
 }

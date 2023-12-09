@@ -1,35 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredocs.c                                         :+:      :+:    :+:   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/06 12:54:33 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/12/08 13:16:24 by ibouhssi         ###   ########.fr       */
+/*   Created: 2023/12/09 12:44:49 by npetitpi          #+#    #+#             */
+/*   Updated: 2023/12/09 14:37:10 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// readline
-// check_key
-// sinon join
-extern int g_return_value;
-
-
-void	sig_handler_heredoc(int signum)
+int	ft_heredoc(int fd, char *charset)
 {
-	if (signum == SIGINT)
+	char	*prompt;
+
+	prompt = readline(">");
+	while (prompt && ft_strcmp(prompt, charset) != 0)
 	{
-		printf("\n");
-		g_return_value = 130;
-		close(0);
+		write(fd, prompt, ft_strlen(prompt));
+		write(fd, "\n", 1);
+		prompt = readline(">");
 	}
-	if (signum == SIGQUIT)
-	{
-		printf("\33[2K\r");
-		rl_on_new_line();
-		rl_redisplay();
-	}
+	return (1);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   u2pipex.c                                          :+:      :+:    :+:   */
+/*   upipex2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 18:14:38 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/29 18:16:35 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/09 12:47:28 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ char	*ft_pipexstrjoin(char *s1, char *s2)
 		return (NULL);
 	i = 0;
 	j = 0;
-	str = ((char *)malloc(sizeof(char) * (ft_pipexstrlen(s1) + ft_pipexstrlen(s2) + 1)));
+	str = ((char *)malloc(sizeof(char) * (ft_pipexstrlen(s1) + \
+	ft_pipexstrlen(s2) + 1)));
 	if (str == NULL)
 		return (NULL);
 	while (s1[i])

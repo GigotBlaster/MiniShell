@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/26 15:14:56 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/08 19:53:41 by npetitpi         ###   ########.fr       */
+/*   Created: 2023/12/06 12:54:33 by ibouhssi          #+#    #+#             */
+/*   Updated: 2023/12/09 14:30:55 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftfull.h"
+#include "minishell.h"
 
-void	*ft_memset(void *s, int c, size_t n)
+int	is_a_redirection(char *str)
 {
-	unsigned char	*dst;
-	size_t			i;
-
-	dst = s;
-	i = 0;
-	while (i < n)
-	{
-		dst[i] = (unsigned char)c;
-		i++;
-	}
-	return (s);
+	if (!strcmp(str, ">"))
+		return (1);
+	if (!strcmp(str, ">>"))
+		return (2);
+	if (!strcmp(str, "<"))
+		return (3);
+	if (!strcmp(str, "<<"))
+		return (4);
+	if (!strcmp(str, "|"))
+		return (5);
+	return (0);
 }

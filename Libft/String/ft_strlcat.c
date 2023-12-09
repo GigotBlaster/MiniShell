@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 13:32:21 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/11/30 13:23:32 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/08 20:01:28 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,8 @@ char	*ft_strcat(char *dst, const char *src)
 
 	d = ft_strlen(dst);
 	i = 0;
-
-	if(dst[i] == '\0')
-		return(NULL);
+	if (dst[i] == '\0')
+		return (NULL);
 	while (src[i])
 	{
 		dst[d + i] = src[i];

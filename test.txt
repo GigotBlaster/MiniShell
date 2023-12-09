@@ -10,7 +10,7 @@
 /bin/ls nothing // OK
 
 
-# Echo OK // sans le bultin
+# Echo
 
 echo hey"you" // OK
 
@@ -21,15 +21,14 @@ echo -n hey"you" // OK
 echo -n -n -n -n hey -n 42 // OK
 
 
-# Exit // sans le builtin
+# Exit
+exit // ok
 
-exit // still not done
+exit 12 // ok
 
-exit 12 // still not done
+exit 1 a // ok
 
-exit 1 a // still not done
-
-exit ab 1 // still not done
+exit ab 1 // ok
 
 
 # Valeur de retour d'un processus // still not done
@@ -43,9 +42,9 @@ a=b c=d notfound1 | echo $? $a | notfound2 ; echo $? ; echo $?
 
 # Point virgule
 
-ls ; echo hey // OK
+ls ; echo hey // ko
 
-ls;echo hey // OK
+ls;echo hey // ko
 
 
 # Signaux 
@@ -63,35 +62,21 @@ ls;echo hey // OK
 
 # Guillemets
 
-/bin/echo a"bc      def\"g\" " "hi ; j" OK
+/bin/echo a"bc      def\"g\" " "hi ; j" // OK
 
 # Env
 env // OK
-
-new="hey"; env // OK
+export new="hey"; env // OK
 
 # Export
 
-export new; env
+export new=COUCOU ; env // ok
 
-OLDPWD="lost"; env
+OLDPWD="lost"; env // ko ????
 
 # Unset
 
-export new="i'm here"; echo $new; unset new; echo $new
-
-
-# Variable d'environnement
-
-test="echo    hey" // OK
-
-$test // OK
-
-echo $test // OK
-
-echo "$test" // OK
-
-"$test" // OK
+export new="i'm here"; echo $new; unset new; echo $new // ok
 
 
 # Pwd
@@ -107,20 +92,20 @@ pwd a b cd e // OK
 
 # Path relatif
 
-../../../../bin/ls // Ok
+../../../../bin/ls // ok
 
 ./minishell // OK
 
 
 # Path d'environnement
 
-ls | wc -c // OK
+ls | wc -c // OK ko??
 
-unset PATH ; ls
+unset PATH ; ls // ok
 
-PATH="directory1" ; ls
+PATH="directory1" ; ls // ok
 
-PATH="directory1:directory2:/bin" ; ls
+PATH="directory1:directory2:/bin" ; ls // ok
 
 
 # Simple quotes
@@ -134,24 +119,26 @@ echo hey >file ; cat file // OK
 
 > file echo hey ; cat file // OK
 
-filename="two parts"; echo hey > $filename // manque le msg d'erreur et ne doit pas creer le fichier filename / syntax error near unexpected token `newline'
+filename="two parts"; echo hey > $filename // KO
 
 echo hey >> file ; cat file // OK
 
-cat < file > copy ; cat copy; rm file copy // OK
+cat < file > copy ; cat copy; rm file copy // KO
 
-echo test > file1 > file2 > file3; tail file1 file2 file3 ; rm file1 file2 file3
+echo test > file1 > file2 > file3; tail file1 file2 file3 ; rm file1 file2 file3 //ok
 
 echo Bonjour >file1 jeune homme; cat file1 // OK
 
-echo Bonjour >file1 jeune homme > file2 ca va >file3; tail file1 file2 file3; rm file1 file2 file3 // KO ne doit pas ecrire dans tout les file seulement le dernier
+echo Bonjour >file1 jeune homme > file2 ca va >file3; tail file1 file2 file3; rm file1 file2 file3 // ok
 
 echo bonjour >f1 mec >f2 | echo ok > f3 | echo >f4 >>f5 oui | echo final >f6 ; tail f1 f2 f3 f4 f5 f6 ; rm f1 f2 f3 f4 f5 f6 // OK
 
-filename="file_test" ; echo "hi Bro" > $filename ; cat $filename ; rm $filename // echec il me dis que la commande n'existe pas alors que je veux juste qu'il me renvoie 
+filename="file_test" ; echo "hi Bro" > $filename ; cat $filename ; rm $filename // ok
 
 echo test > file01 > file02 > file03 ; tail file01 file02 file03 ; rm file01 file02 file03 // OK
 
+
+echo hey > $coucou KO SEG
 
 # Pipes
 
@@ -159,11 +146,11 @@ cat o | grep hey | more // OK
 
 ls fichiernul | grep bla | more // OK
 
-ls | echo OK
+ls | echo // ok
 
-ls | echo bonjour > file11 | ls ; rm file11 // ;rm pas gere
+ls | echo bonjour > file11 | ls ; rm file11 // ok
 
-ls | hexdump > f0 | echo Bonjour >f1 jeune homme > f2 ca va >f3 | ls ; tail f0 f1 f2 f3 ; rm f0 f1 f2 f3 // OK
+ls | hexdump > f0 | echo Bonjour >f1 jeune homme > f2 ca va >f3 | ls ; tail f0 f1 f2 f3 ; rm f0 f1 f2 f3 // ko
 
 echo hey >> file ; hexdump file | cat // OK
 
@@ -173,4 +160,4 @@ sleep 5 | sleep 5 | sleep 5 | sleep 5 | sleep 5 // OK
 
 sleep 5 | sleep 5 | sleep 5 ; sleep 5 // OK
 
-cat | cat | cat | cat | ls // KO doit bien fermer au bout du nombre de cat
+cat | cat | cat | cat | ls // Ok
