@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 14:37:51 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/10 10:28:02 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/10 15:28:22 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,27 @@ void	free_tab2(char **tab)
 	free(tab);
 }
 
-void	free_cmd(t_cmd *cmd)//rn
+void	free_cmd(t_cmd *cmd)
 {
-	free(cmd->redirection);
-	cmd->redirection = NULL;
-	free_tab2(cmd->fichiers);
-	cmd->fichiers = NULL;
-	free_tab2(cmd->arguments);
-	cmd->arguments = NULL;
-	free(cmd);
-	cmd = NULL;
+	if (cmd)
+	{
+		if (cmd->redirection)
+		{
+			free(cmd->redirection);
+			cmd->redirection = NULL;
+		}
+		if (cmd->fichiers)
+		{
+			free_tab2(cmd->fichiers);
+			cmd->fichiers = NULL;
+		}
+		if (cmd->arguments)
+		{
+			free_tab2(cmd->arguments);
+			cmd->arguments = NULL;
+		}
+		free(cmd);
+	}
 }
 
 void	*ft_free(void **ptr)
@@ -69,21 +80,39 @@ void	ft_freeredir(t_cmd *cmd)
 	ft_free((void **)&cmd->redirection);
 }
 
-void free_pipex(t_pipex *pipex)
+void	free_pipex(t_pipex *pipex)
 {
-	free_tab2(pipex->cmds);
-	pipex->cmds = NULL;
-	free(pipex->buf);
-	pipex->buf = NULL;
-	free(pipex->pid);
-	pipex->pid = NULL;
-	free_tab2(pipex->env);
-	pipex->env = NULL;
-	free(pipex->stop);
-	pipex->env = NULL;
+	if (pipex)
+	{
+		if (pipex->cmds)
+		{
+			free_tab2(pipex->cmds);
+			pipex->cmds = NULL;
+		}
+		if (pipex->buf)
+		{
+			free(pipex->buf);
+			pipex->buf = NULL;
+		}
+		if (pipex->pid)
+		{
+			free(pipex->pid);
+			pipex->pid = NULL;
+		}
+		if (pipex->env)
+		{
+			free_tab2(pipex->env);
+			pipex->env = NULL;
+		}
+		if (pipex->stop)
+		{
+			free(pipex->stop);
+			pipex->env = NULL;
+		}
+	}
 }
 
-void free_all(t_pipex *pipex, t_cmd *cmd)
+void	free_all(t_pipex *pipex, t_cmd *cmd)
 {
 	free_pipex(pipex);
 	free_cmd(cmd);

@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 19:46:00 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/12/09 20:28:20 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/10 18:29:13 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ char	*get_value(char *str, int *index, char **env)
 	c = str[*index + i];
 	str[*index + i] = '\0';
 	value = get_value_from_key(&str[*index], env);
-	// if (!value)
-	// 	return (NULL);
 	tmp = ft_strlen(&str[*index]);
 	str[*index + i] = c;
 	*index += tmp;

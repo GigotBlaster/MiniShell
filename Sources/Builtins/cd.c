@@ -6,65 +6,44 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:36:20 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/09 20:28:11 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/10 17:15:32 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	update_pwd_vars(t_pipex *pipex, char *dir)
+void	cd_error_handler(t_pipex *pipex, char *dest, int forg, char *current)
 {
-	char	*var;
+	if (current != NULL)
+		free(current);
+	cd_error(pipex, dest, forg, 3);
+}
 
-	if (dir == NULL)
-		return ;
-	var = get_value_from_key("OLDPWD", pipex->env);
-	if (var == NULL)
-		cd_add_env_var(pipex, "OLDPWD", dir);
-	else
+void	change_directory_success(t_pipex *pipex, char *dest, \
+int forg, char *current)
+{
+	current = getcwd(current, 0);
+	if (chdir(dest) == -1)
 	{
-		cd_replace_env_var(pipex, "OLDPWD", dir);
-		free(var);
+		if (current != NULL)
+			cd_error_handler(pipex, dest, forg, current);
 	}
-	dir = NULL;
-	dir = getcwd(dir, 0);
-	if (dir == NULL)
-		return ;
-	var = get_value_from_key("PWD", pipex->env);
-	if (var == NULL)
-		cd_add_env_var(pipex, "PWD", dir);
-	else
-	{
-		cd_replace_env_var(pipex, "PWD", dir);
-		free(var);
-	}
+	if (forg == 1)
+		exit(0);
+	update_pwd_vars(pipex, current);
+	g_return_value = 0;
 }
 
 void	change_directory(t_pipex *pipex, char *dest, int forg, char *current)
 {
-	struct stat	buf; // wtf
+	struct stat	buf;
+
 	if (stat(dest, &buf) < 0 && errno == EACCES)
-		cd_error(pipex, dest, forg, 3);
+		cd_error_handler(pipex, dest, forg, current);
 	else if (access(dest, F_OK) != 0)
-		cd_error(pipex, dest, forg, 1);
+		cd_error_handler(pipex, dest, forg, current);
 	else if (S_ISDIR(buf.st_mode))
-	{
-		current = getcwd(current, 0);
-		if (chdir(dest) == -1)
-		{
-			if (current != NULL)
-			{
-				free(current);
-				cd_error(pipex, dest, forg, 3);
-				return ;
-			}
-		}
-		if (forg == 1)
-			exit(0); // free
-		update_pwd_vars(pipex, current);
-		g_return_value = 0;
-		return ;
-	}
+		change_directory_success(pipex, dest, forg, current);
 	else
 		cd_error(pipex, dest, forg, 2);
 }

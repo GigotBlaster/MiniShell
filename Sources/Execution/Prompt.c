@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 14:56:28 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/09 20:28:15 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/10 18:27:25 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,25 @@ void	sig_handler_prompt(int signum)
 	}
 }
 
+void ft_hold_var(int action, t_pipex *pip, char **tab)
+{
+	static t_pipex *hold_pip = NULL;
+	static char		**hold_tab = NULL;
+	
+	if (action == 0)
+	{
+		hold_pip = pip;
+		hold_tab = tab;
+	}
+	else if (action == 1)
+	{
+		free(hold_pip->buf);
+		free_tab2(hold_pip->env);
+		free(hold_pip->pid);
+		free_tab2(hold_tab);
+	}
+} 
+
 void	prompt(t_info	*info)
 {
 	static t_pipex	shell = {0};
@@ -114,18 +133,16 @@ void	prompt(t_info	*info)
 		shell.buf = addspaces(shell.buf);
 		if (parsing(shell.buf))
 			continue ;
-		// here_doc ---
 		tmp = shell.buf;
 		shell.buf = expand(shell.buf, shell.env);
 		free(tmp);
 		shell.nbcmd = 0;
 		tab = ft_split_pipe(shell.buf, &shell.nbcmd);
 		remspacetab(tab);
+		ft_hold_var(0, &shell, tab);
 		ft_pipe(&shell, tab, shell.env, first_time);
-		//maybe probleme to free
-		// info->pipex_env = shell.env;
-		first_time = false;
 		free(shell.buf);
 		free_tab2(tab);
+		first_time = false;
 	}
 }

@@ -3,29 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   spaces.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 17:23:14 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/12/09 17:00:33 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/12/10 19:26:32 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int updateContext(char c, int context)
+{
+		if (c == context)
+			context = 0;
+		else if (!context && c == DQ)
+			context = DQ;
+		else if (!context && c == SQ)
+			context = SQ;
+		return context;
+}
+
 int	addlength(char *input)
 {
 	int	len;
 	int	i;
+	int context;
 
 	len = 0;
 	i = 0;
+	context = 0;
 	while (input[i])
 	{
 		if (!ft_strchr("<>|", input[i]))
 			len++;
 		else
 		{
-			// if (!ft_strncmp(&input[i], "<<", 2) || !ft_strncmp(&input[i], ">>", 2))
 			if ((input[i] == '>' && input[i + 1] == '>') || \
 			(input[i] == '<' && input[i + 1] == '<'))
 			{
@@ -38,8 +50,6 @@ int	addlength(char *input)
 	}
 	return (len);
 }
-// <Makefile ls>out-R>>out2<out -l
-// < Makefile ls > out -R >> out2 < out -l
 
 char	*addspaces(char *input)
 {

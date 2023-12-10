@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 12:51:14 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/09 20:36:55 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/10 18:28:28 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,14 @@ void	child_process(t_pipex *pipex, char *arg, int i)
 	char	*cmd;
 
 
-	all = token(arg);// create_cmd
+	all = token(arg);
 	if (all->redirection[0])
 		;
 	else if (!all || !all->arguments || !all->arguments[0])
+	{
+		free_all(pipex, all);
 		exit(0);
+	}
 	file(NULL, all, i);
 	if (check_built_in_baby(pipex, arg))
 	{
@@ -30,7 +33,6 @@ void	child_process(t_pipex *pipex, char *arg, int i)
 		free_all(pipex, all);
 		exit(0);
 	}
-//	free(pipex->pid);
 	all->environnement = pipex->env;
 	cmd = find_path(all->command, pipex->env);
 	if (cmd)
@@ -40,9 +42,6 @@ void	child_process(t_pipex *pipex, char *arg, int i)
 			close(pipex->prev);
 		if (i < pipex->nbcmd - 1)
 			close(pipex->pipe_fd[1]);
-	//	char **tab = all->arguments; oust
-//		free_child(pipex, all); oust
-	//	execve(cmd, tab, pipex->env); oust
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		execve(cmd, all->arguments, pipex->env);
@@ -58,7 +57,6 @@ void	parent_process(t_pipex *pipex)
 		close(pipex->prev);
 	close(pipex->pipe_fd[1]);
 	pipex->prev = pipex->pipe_fd[0];
-//	free(pipex->pid);
 }
 
 void	error_signal(int *cnt)
@@ -69,7 +67,7 @@ void	error_signal(int *cnt)
 		printf("Segmentation fault (core dumped)\n");
 	else if (g_return_value == 128 + SIGQUIT && !(*cnt))
 	{
-		printf("Quit (core dumped)\n");
+		printf("\nQuit (core dumped)\n");
 		(*cnt)++;
 	}
 	else if (g_return_value == 128 + SIGABRT)
@@ -136,6 +134,5 @@ void	process(t_pipex *pipex)
 			printf("3------------->%d\n", g_return_value);
 		}
 	}
-//	free(pipex->pid);
 	close(pipex->pipe_fd[0]);
 }

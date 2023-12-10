@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:04:36 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/09 13:38:15 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/10 16:36:37 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	ft_errorcmd(t_info *data, t_cmd *cmd, char *str)
 	ft_free((void **)&cmd->flag);
 	ft_free((void **)&cmd->command);
 	ft_freeredir(cmd);
+	free_cmd(cmd);
+	ft_hold_var(1, NULL, NULL);
 }
 
 void	error_fd(t_info *data, t_cmd *cmd, int i)
@@ -29,7 +31,5 @@ void	error_fd(t_info *data, t_cmd *cmd, int i)
 		fprintf(stderr, "bash: %s: No such file or directory\n",
 			cmd->fichiers[i]);
 	ft_errorcmd(data, cmd, "");
-	close(data->fd[1]);
-	close(data->fd[0]);
 	exit(1);
 }

@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:30:06 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/08 20:36:18 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/10 11:08:56 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,32 @@ int	ft_pwd(t_cmd *cmd)
 	write(fd, "\n", 1);
 	free(cwd);
 	return (SUCCESS);
+}
+
+void	update_pwd_vars(t_pipex *pipex, char *dir)
+{
+	char	*var;
+
+	if (dir == NULL)
+		return ;
+	var = get_value_from_key("OLDPWD", pipex->env);
+	if (var == NULL)
+		cd_add_env_var(pipex, "OLDPWD", dir);
+	else
+	{
+		cd_replace_env_var(pipex, "OLDPWD", dir);
+		free(var);
+	}
+	dir = NULL;
+	dir = getcwd(dir, 0);
+	if (dir == NULL)
+		return ;
+	var = get_value_from_key("PWD", pipex->env);
+	if (var == NULL)
+		cd_add_env_var(pipex, "PWD", dir);
+	else
+	{
+		cd_replace_env_var(pipex, "PWD", dir);
+		free(var);
+	}
 }

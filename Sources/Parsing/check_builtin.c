@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 12:48:47 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/10 10:28:25 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/10 16:16:59 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@ int	check_built_in_baby(t_pipex *p, char *str)
 
 	cmd = token(str);
 	if (!cmd || !cmd->arguments || !cmd->arguments[0])
+	{
+		//free_all(p, cmd);
+		free_cmd(cmd);
 		return (SUCCESS);
+	}
 	if (ft_strncmp(cmd->arguments[0], "pwd", 4) == 0)
 		return (ft_pwd(cmd), free_cmd(cmd), 1);
 	if (ft_strncmp(cmd->arguments[0], "env", 4) == 0)
@@ -35,7 +39,11 @@ int	check_built_in_dad(t_pipex *p, char *str)
 
 	cmd = token(str);
 	if (!cmd || !cmd->arguments || !cmd->arguments[0])
+	{
+	//	free_all(p, cmd);
+		free_cmd(cmd);
 		return (0);
+	}
 	if (ft_strncmp(cmd->arguments[0], "cd", 3) == 0)
 		return (ft_cd(p, cmd, 0), free_cmd(cmd), 1);
 	else if (ft_strncmp(cmd->arguments[0], "export", 6) == 0)

@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 11:46:21 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/10 10:30:56 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/10 13:29:39 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_cmd	*token(char *str)
 		return (free_tab2(input), NULL);
 	if (!token2(input, cmd))
 		return (NULL);
+	printf("%s\n", cmd->command);
 	return (cmd);
 }
 
@@ -80,7 +81,7 @@ t_cmd	*token3(char **input, t_cmd *cmd)
 		{
 			cmd->redirection[r] = is_a_redirection(input[i]);
 			if (!input[i + 1])
-                return free_cmd(cmd), NULL;
+                return (free_cmd(cmd), NULL);
 			cmd->fichiers[r] = ft_strdup(input[++i]);
 			if (!cmd->fichiers[r++])
 				return (free_cmd(cmd), NULL);

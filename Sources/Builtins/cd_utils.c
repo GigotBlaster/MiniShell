@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 20:13:12 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/09 20:28:07 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/10 11:13:54 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,10 +125,6 @@ void	cd_error(t_pipex *pipex, char *dest, int forked, int type)
 		ft_putendl_fd(": Permission denied", 2);
 	}
 	if (forked == 1)
-	{
-		// free_lex(pipex->env);
-		// free_all(pipex);
-		exit (1);
-	}
+		exit (1);// au dessus de exit // free_lex(pipex->env); puis // free_all(pipex); ??
 	g_return_value = 1;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 13:01:53 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/09 19:10:47 by ibouhssi         ###   ########.fr       */
+/*   Updated: 2023/12/10 17:05:37 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	file(t_info *data, t_cmd *cmd, int a) //with suz
 			if (fd < 0)
 				perror("ERROR CAN't open FD:");
 			ft_heredoc(fd, cmd->fichiers[i]);
-			// permet d avoir les bonne permission pour la lecture du fichier
 			close(fd);
 			fd = open(".tmp_heredoc", O_RDONLY);
 			unlink(".tmp_heredoc");
@@ -56,7 +55,6 @@ void	file(t_info *data, t_cmd *cmd, int a) //with suz
 		fd = -1;
 		i++;
 	}
-	//le faire hors du while pour que les heredoc aient toujours acces au stdin
 	if (fd_in > -1)
 		dupclose(fd_in, STDIN_FILENO);
 	else if (fd_out > -1)

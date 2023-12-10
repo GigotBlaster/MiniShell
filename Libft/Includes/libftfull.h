@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 14:08:04 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/10 10:32:32 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/10 11:02:14 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int			ft_isalnum(int c);
 int			ft_isascii(int c);
 int			ft_isprint(int c);
 int			ft_issep(char c, const char *charset);
-size_t		ft_strlen(const char *s);
+size_t		ft_strlen(const char *str);
 char		*ft_strchr(const char *s, int c);
 char		*ft_strrchr(const char *s, int c);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);

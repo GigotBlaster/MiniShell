@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 13:31:02 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/10 10:41:32 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/10 17:15:14 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,43 +77,3 @@ char	**ft_split(char *str, char c)
 	count_words(str, c, &wc);
 	return (ft_split2(str, c, wc));
 }
-
-// char	**ft_split(char *str, char c)
-// {
-// 	char	**out;
-// 	int		i;
-// 	int		j;
-// 	int		k;
-// 	int		wc;
-
-// 	i = 0;
-// 	j = 0;
-// 	k = 0;
-// 	wc = 0;
-// 	while (str[i])
-// 	{
-// 		while (str[i] && (str[i] == c))
-// 			i++;
-// 		if (str[i])
-// 			wc++;
-// 		while (str[i] && (str[i] != c))
-// 			i++;
-// 	}
-// 	out = (char **)malloc(sizeof(char *) * (wc + 1));
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		while (str[i] && (str[i] == c))
-// 			i++;
-// 		j = i;
-// 		while (str[i] && (str[i] != c))
-// 			i++;
-// 		if (i > j)
-// 		{
-// 			out[k] = (char *)malloc(sizeof(char) * ((i - j) + 1));
-// 			ft_strncpysplit(out[k++], &str[j], i - j);
-// 		}
-// 	}
-// 	out[k] = NULL;
-// 	return (out);
-// }

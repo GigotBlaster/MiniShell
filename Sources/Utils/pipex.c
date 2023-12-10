@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 17:54:20 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/09 20:28:50 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/10 16:39:32 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ int	get_pipe(t_pipex *here, t_info *data)
 		close(here->pipe_fd[0]);
 	return (-1);
 }
+
+
 
 int	ft_pipe(t_pipex *pipex, char **av, char **env, bool first_time)
 {

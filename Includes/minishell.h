@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:57:46 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/12/10 10:28:46 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/10 16:37:05 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ bool	var_exist_n_replace(t_pipex *cmd, char *src);
 /*pwd*/
 void	change_stdin_stdout(t_info *cmd);
 int		ft_pwd(t_cmd *cmd);
+void	update_pwd_vars(t_pipex *pipex, char *dir);
 
 /*unset*/
 int		ft_unset(t_pipex *pipex, t_cmd *cmd);
@@ -192,5 +193,8 @@ void	quit_all(t_pipex *sh);
 void	free_lex(char **lex);
 int		count_line(char **envp);
 char	**get_env(char **envp);
+
+
+void ft_hold_var(int action, t_pipex *pip, char **tab);
 
 #endif
