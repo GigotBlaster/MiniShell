@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:54:09 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/12/09 16:27:03 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/09 20:50:33 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	quit_all(t_pipex *sh)
 	(void)sh;
 	rl_clear_history();
 	ft_putendl_fd("exit", 2);
+	free_tab2(sh->env);
 	exit(g_return_value);
 }
 

@@ -6,12 +6,11 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 12:51:14 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/09 19:27:44 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/09 20:36:55 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 void	child_process(t_pipex *pipex, char *arg, int i)
 {
@@ -25,29 +24,32 @@ void	child_process(t_pipex *pipex, char *arg, int i)
 	else if (!all || !all->arguments || !all->arguments[0])
 		exit(0);
 	file(NULL, all, i);
-	printf("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
 	if (check_built_in_baby(pipex, arg))
 	{
 		printf("built in success\n"); //oust
+		free_all(pipex, all);
 		exit(0);
 	}
-	free(pipex->pid);
+//	free(pipex->pid);
 	all->environnement = pipex->env;
 	cmd = find_path(all->command, pipex->env);
 	if (cmd)
 	{
-		close(pipex->pipe_fd[0]); // fermer le descripteur de lecture du pipe
+		close(pipex->pipe_fd[0]);
 		if (i > 0)
-			close(pipex->prev); // fermer le descripteur d'entrée standard
+			close(pipex->prev);
 		if (i < pipex->nbcmd - 1)
-			close(pipex->pipe_fd[1]); // fermer le descripteur d'écriture du pipe
+			close(pipex->pipe_fd[1]);
+	//	char **tab = all->arguments; oust
+//		free_child(pipex, all); oust
+	//	execve(cmd, tab, pipex->env); oust
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		execve(cmd, all->arguments, pipex->env);
 	}
 	printf("%s: command not found\n", all->command);
-	g_return_value = 127;
-	exit(g_return_value);
+	free_all(pipex, all);
+	exit(127);
 }
 
 void	parent_process(t_pipex *pipex)
@@ -56,6 +58,7 @@ void	parent_process(t_pipex *pipex)
 		close(pipex->prev);
 	close(pipex->pipe_fd[1]);
 	pipex->prev = pipex->pipe_fd[0];
+//	free(pipex->pid);
 }
 
 void	error_signal(int *cnt)
@@ -75,9 +78,9 @@ void	error_signal(int *cnt)
 
 void	process(t_pipex *pipex)
 {
-	int	i;
-	int	fd_in;
-	pid_t pid;
+	int		i;
+	int		fd_in;
+	pid_t	pid;
 
 	i = 0;
 	fd_in = STDIN_FILENO;
@@ -110,6 +113,8 @@ void	process(t_pipex *pipex)
 				close(pipex->pipe_fd[1]);
 				fd_in = pipex->pipe_fd[0];
 			}
+		}else{
+			pipex->pid[i]=0;
 		}
 		i++;
 	}
@@ -131,5 +136,6 @@ void	process(t_pipex *pipex)
 			printf("3------------->%d\n", g_return_value);
 		}
 	}
+//	free(pipex->pid);
 	close(pipex->pipe_fd[0]);
 }

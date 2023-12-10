@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 14:08:04 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/05 19:04:35 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/10 10:32:32 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ void		ft_putchar(char c);
 void		ft_putstr(char *s);
 void		ft_putendl(char *s);
 void		ft_putnbr(int n);
-char		**ft_split(const char *str, char c);
+char		**ft_split(char *str, char c);
+char		**ft_split2(char *str, char c, int i, int wc);
 char		*ft_strjoin(const char *s1, const char *s2);
 char		*ft_strtrim(const char *s1, const char *set);
 char		*ft_strmapi(char const *s, char (*f)(unsigned int, char));

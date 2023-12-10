@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 13:01:53 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/09 16:07:11 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/09 19:10:47 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	file(t_info *data, t_cmd *cmd, int a) //with suz
 			// permet d avoir les bonne permission pour la lecture du fichier
 			close(fd);
 			fd = open(".tmp_heredoc", O_RDONLY);
+			unlink(".tmp_heredoc");
 		}
 		else if (cmd->redirection[i] == 5)
 			get_pipe(data->here, data);
@@ -60,5 +61,4 @@ void	file(t_info *data, t_cmd *cmd, int a) //with suz
 		dupclose(fd_in, STDIN_FILENO);
 	else if (fd_out > -1)
 		dupclose(fd_out, STDOUT_FILENO);
-	free(cmd->redirection);
 }

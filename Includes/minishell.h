@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 11:57:46 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/12/09 16:32:21 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/10 10:28:46 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@
 # define SQ '\''
 # define DQ '\"'
 
-extern int	g_return_value;
+extern int g_return_value;
 
 //////////////////////
 ////// BUILTINS //////
@@ -65,7 +65,7 @@ void	ft_echo(t_cmd *cmd);
 int		ft_env(t_pipex *env, t_cmd *cmd);
 
 /*exit*/
-int		ft_exit(t_cmd *cmd, int nbcmd);
+int		ft_exit(t_cmd *cmd, t_pipex *p);
 
 /*export*/
 bool	var_exist_n_replace(t_pipex *cmd, char *src);
@@ -130,7 +130,7 @@ void	ft_restore(char *line);
 
 /*spaces*/
 char	*addspaces(char *input);
-char	*remspaces(const char *str);
+char	*remspaces(char *str);
 char	**remspacetab(char **tab);
 
 /*str_expand*/
@@ -150,9 +150,10 @@ void	error_fd(t_info *data, t_cmd *cmd, int i);
 /*free*/
 void	free_tab(char **args);
 void	free_tab2(char **tab);
-void	free_cmd_ln(t_cmd *cmd);
+void	free_cmd(t_cmd *cmd);
 void	*ft_free(void **ptr);
 void	ft_freeredir(t_cmd *cmd);
+void    free_all(t_pipex *pipex, t_cmd *cmd);
 
 char	*noquote(char *str);
 int		check_built_in(t_cmd *cmd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 17:11:22 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/12/09 18:47:43 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/09 16:36:37 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ int	quote_error(char *str)
 				i++;
 			if (str[i] != c)
 				return (ft_putstr_fd("syntax error near unexpected token `", 2),
-					write(2, &c, 1), ft_putstr_fd("'\n", 2),
-					g_return_value = 2, 1);
+					write(2, &c, 1), ft_putstr_fd("'\n", 2), 1);
 		}
 		i++;
 	}
@@ -54,23 +53,23 @@ int	check_last(char *str)
 		if (len == 1)
 		{
 			if (str[i] == '<' || str[i] == '>')
-				return (g_return_value = 2, ft_putstr_fd \
+				return (ft_putstr_fd \
 				("syntax error near unexpected token `newline'\n", 2), 1);
 			else if (str[i] == '|')
-				return (g_return_value = 2, ft_putstr_fd \
+				return (ft_putstr_fd \
 				("syntax error near unexpected token `|'\n", 2), 2);
 		}
 		else if (len == 2)
 		{
 			if ((str[i] == '<' && str[i + 1] == '<') || (str[i] == '<' && \
 			str[i + 1] == '>') || (str[i] == '>' && str[i + 1] == '>'))
-				return (g_return_value = 2, ft_putstr_fd \
+				return (ft_putstr_fd \
 				("syntax error near unexpected token `newline'\n", 2), 3);
 			else if (str[i] == '>' && str[i + 1] == '<')
-				return (g_return_value = 2, ft_putstr_fd \
+				return (ft_putstr_fd \
 				("syntax error near unexpected token `<'\n", 2), 4);
 			else if (str[i] == '<' && str[i + 1] == '|')
-				return (g_return_value = 2, ft_putstr_fd \
+				return (ft_putstr_fd \
 				("syntax error near unexpected token `|'\n", 2), 5);
 		}
 		i++;
@@ -102,22 +101,32 @@ int	syntax_error(char **tab)
 	while (tab && tab[i])
 	{
 		if (tab[0][0] == '|')
-			return (g_return_value = 2, ft_putstr_fd \
+		{
+			free_tab2(tab);
+			return (ft_putstr_fd \
 			("syntax error near unexpected token `|'\n", 2), 2);
+		}
 		if ((tab[i + 1] && tab[i + 1][0]) && \
 		(tab[i][0] == '|' && tab[i + 1][0] == '|'))
-			return (g_return_value = 2, ft_putstr_fd \
+		{
+			free_tab2(tab);
+			return (ft_putstr_fd \
 			("syntax error near unexpected token `|'\n", 2), 2);
+		}
 		if (tab[i + 1])
 		{
 			if (is_a_redirection(tab[i]) && (is_a_redirection(tab[i + 1]) || \
 			tab[i + 1][0] == '|'))
-				return (g_return_value = 2, ft_putstr_fd("syntax error near unexpected token `", 2),
+			{
+				free_tab2(tab);
+				return (ft_putstr_fd("syntax error near unexpected token `", 2),
 					ft_putstr_fd(tab[i], 2), ft_putstr_fd("'\n", 2), 2);
+			}
 		}
 		i++;
 	}
 	retour = check_last(tab[i - 1]);
+	free_tab2(tab);
 	return (retour);
 }
 

@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 19:46:00 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/12/09 17:12:29 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/09 20:28:20 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*get_value(char *str, int *index, char **env)
 
 	i = 0;
 	if (str[*index] == '?')
-        return ((*index)++, ft_itoa(g_return_value));
+        return ((*index)++, ft_itoa(g_return_value)); 
 	if (ft_isdigit(str[*index]))
 		return (&str[*index + 1]);
 	while (ft_isalnum(str[*index + i]) || str[*index + i] == '_')

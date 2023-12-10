@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:36:20 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/09 17:38:43 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/09 20:28:11 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	change_directory(t_pipex *pipex, char *dest, int forg, char *current)
 		if (forg == 1)
 			exit(0); // free
 		update_pwd_vars(pipex, current);
-		printf("dans cd = %d\n", g_return_value);
 		g_return_value = 0;
 		return ;
 	}
@@ -98,8 +97,8 @@ void	ft_cd(t_pipex *pipex, t_cmd *cmd, int forked)
 	if (arg_nb > 2)
 	{
 		ft_putendl_fd("minishell: cd: too many arguments", 2);
-		// if (forked == 1)
-		// 	exit(1);
+		if (forked == 1)
+			exit(1);
 		g_return_value = 1;
 		return ;
 	}

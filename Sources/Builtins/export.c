@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 14:36:04 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/08 20:34:19 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/10 10:29:39 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,12 @@ bool	var_exist_n_replace(t_pipex *pipex, char *src)
 		{
 			free(pipex->env[y]);
 			pipex->env[y] = ft_strdup(src);
+			free_tab2(s);
 			return (true);
 		}
 		y++;
 	}
+	free_tab2(s);
 	return (false);
 }
 

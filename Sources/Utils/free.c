@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 14:37:51 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/09 13:38:28 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/10 10:28:02 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,16 @@ void	free_tab2(char **tab)
 	free(tab);
 }
 
-void	free_cmd_ln(t_cmd *cmd)//rn
+void	free_cmd(t_cmd *cmd)//rn
 {
 	free(cmd->redirection);
+	cmd->redirection = NULL;
 	free_tab2(cmd->fichiers);
+	cmd->fichiers = NULL;
 	free_tab2(cmd->arguments);
+	cmd->arguments = NULL;
 	free(cmd);
+	cmd = NULL;
 }
 
 void	*ft_free(void **ptr)
@@ -63,4 +67,24 @@ void	ft_freeredir(t_cmd *cmd)
 	while (cmd->fichiers[i])
 		ft_free((void **)&cmd->fichiers[i++]);
 	ft_free((void **)&cmd->redirection);
+}
+
+void free_pipex(t_pipex *pipex)
+{
+	free_tab2(pipex->cmds);
+	pipex->cmds = NULL;
+	free(pipex->buf);
+	pipex->buf = NULL;
+	free(pipex->pid);
+	pipex->pid = NULL;
+	free_tab2(pipex->env);
+	pipex->env = NULL;
+	free(pipex->stop);
+	pipex->env = NULL;
+}
+
+void free_all(t_pipex *pipex, t_cmd *cmd)
+{
+	free_pipex(pipex);
+	free_cmd(cmd);
 }

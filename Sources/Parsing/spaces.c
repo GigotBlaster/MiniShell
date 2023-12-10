@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   spaces.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ibouhssi <ibouhssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 17:23:14 by ibouhssi          #+#    #+#             */
-/*   Updated: 2023/12/09 13:37:20 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/09 17:00:33 by ibouhssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	*addspaces(char *input)
 	return (output);
 }
 
-char	*remspaces(const char *str)
+char	*remspaces(char *str)
 {
 	size_t	i;
 	int		j;
@@ -110,6 +110,7 @@ char	*remspaces(const char *str)
 		j++;
 	}
 	newstr[j] = '\0';
+//	free(str);
 	return (newstr);
 }
 

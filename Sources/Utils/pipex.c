@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 17:54:20 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/09 16:16:44 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/09 20:28:50 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,18 @@ char	*find_path(char *cmd_name, char **env)
 
 void	init(t_pipex *pipex, char **env, char **av, bool first_time)
 {
+	int	i;
+	i = 0;
 	if (first_time)
 		pipex->env = env;
 	pipex->prev = -1;
 	pipex->cmds = av;
 	pipex->pid = malloc(sizeof(int) * pipex->nbcmd);
+	while (i < pipex->nbcmd)
+	{
+		pipex->pid[i] = 0;
+		i++;
+	}
 }
 
 int	get_pipe(t_pipex *here, t_info *data)
@@ -85,5 +92,6 @@ int	ft_pipe(t_pipex *pipex, char **av, char **env, bool first_time)
 {
 	init(pipex, env, av, first_time);
 	process(pipex);
+	free(pipex->pid);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 14:56:28 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/09 16:16:39 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/09 20:28:15 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void	prompt(t_info	*info)
 {
 	static t_pipex	shell = {0};
 	char			**tab;	
+	char			*tmp;
 	bool			first_time;
 
 	first_time = true;
@@ -114,7 +115,9 @@ void	prompt(t_info	*info)
 		if (parsing(shell.buf))
 			continue ;
 		// here_doc ---
+		tmp = shell.buf;
 		shell.buf = expand(shell.buf, shell.env);
+		free(tmp);
 		shell.nbcmd = 0;
 		tab = ft_split_pipe(shell.buf, &shell.nbcmd);
 		remspacetab(tab);
@@ -122,5 +125,7 @@ void	prompt(t_info	*info)
 		//maybe probleme to free
 		// info->pipex_env = shell.env;
 		first_time = false;
+		free(shell.buf);
+		free_tab2(tab);
 	}
 }

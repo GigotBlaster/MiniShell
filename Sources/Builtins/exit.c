@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 14:36:33 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/09 17:24:18 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/09 20:28:18 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ int	ft_is_digit(char *str)
 	return (1);
 }
 
-int	ft_exit(t_cmd *cmd, int nbcmd)
+int	ft_exit(t_cmd *cmd, t_pipex* p)
 {
 	printf("---------------MON EXIT -------------\n");
-	if (cmd->redirection[0] != 0 || nbcmd > 1)
+	if (cmd->redirection[0] != 0 || p->nbcmd > 1)
 		return (1);
 	printf("Exit\n");
 	if (cmd->arguments[1])
@@ -70,5 +70,7 @@ int	ft_exit(t_cmd *cmd, int nbcmd)
 		else
 			g_return_value = atoi(cmd->arguments[1]);
 	}
-	exit (g_return_value);
+	free_all(p, cmd);
+	exit (0);
+	return (0);
 }

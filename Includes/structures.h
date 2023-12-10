@@ -6,7 +6,7 @@
 /*   By: npetitpi <npetitpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:12:56 by npetitpi          #+#    #+#             */
-/*   Updated: 2023/12/09 18:03:14 by npetitpi         ###   ########.fr       */
+/*   Updated: 2023/12/08 20:12:15 by npetitpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ typedef struct s_pipex
 	int		prev;
 	int		nbcmd;
 	char	**cmds;
-	int		*dad;
 	int		*pid;
 }				t_pipex;
 
